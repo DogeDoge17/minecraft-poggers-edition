@@ -1,4 +1,4 @@
-Minecraft shit post created by or DogeDoge(17)
+Minecraft shit post created by dogdog
 
 Minecraft was created by Mojang
 
