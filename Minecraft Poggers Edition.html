@@ -1,0 +1,159 @@
+<doctype html>
+	<html>
+	<head>
+		<title>Minecraft</title>
+	</head>
+
+<style type="text/css">
+
+    .buttons
+    {
+        text-align: center;
+        
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+    
+    @font-face 
+    {
+        font-family: 'Minecraft';
+        src: url('assets/fonts/Main Menu/Minecraft-Regular.eot');
+        src: url('assets/fonts/Main Menu/Minecraft-Regular.eot?#iefix') format('embedded-opentype'),
+            url('assets/fonts/Main Menu/Minecraft-Regular.woff2') format('woff2'),
+            url('assets/fonts/Main Menu/Minecraft-Regular.woff') format('woff'),
+            url('assets/fonts/Main Menu/Minecraft-Regular.ttf') format('truetype'),
+            url('assets/fonts/Main Menu/Minecraft-Regular.svg#Minecraft-Regular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+    
+    
+    .TitleButton
+    {
+        width: 40%;
+        height: 7%;
+        font-size: 30px;
+        color: white;
+        border: 1px solid black;
+        font-family: 'Minecraft'; font-weight: normal; font-style: normal;
+        background-color: lightGray;
+        background: url('assets/images/Button Bg.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+
+    }
+    
+    body {
+        background-image: url('assets/images/Mc Background Ani.gif');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin: 0;
+
+    }
+
+    
+    .TitleButton:hover 
+    {
+        background: url('assets/images/Button Bg Selected.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    
+    .creds
+    {
+        color: white;
+        overflow: hidden;
+        position: fixed;
+        bottom: -15px;
+        left: 15px;
+        font-family: 'Minecraft'; font-weight: normal; font-style: normal;
+    }
+    
+    .splashText
+    {
+        width: 525px;
+        overflow: hidden;    
+        color: #d9d922;
+        position: absolute;
+        left: 57%;
+        top: 20%;
+        text-shadow: 4px 1px #343434;
+        font-size: 50px;
+        text-align: center;
+        margin: auto;
+        -webkit-transform: rotate(-25deg);
+        -moz-transform: rotate(-25deg);
+        -o-transform: rotate(-25deg);
+        transform: rotate(-25deg); 
+        font-family: 'Minecraft'; font-weight: normal; font-style: normal;
+        animation-name: splashPulse;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+
+
+    }
+    
+    @keyframes splashPulse {
+        0% {font-size: 50px;}
+        50% {font-size:45px;}
+        100% {font-size:50px;}    
+    }
+    
+    img 
+    {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: 47%;
+    }
+    
+</style>
+
+<script type="text/javascript">
+
+var click = new Audio('assets/sounds/Menu Click.mp3');
+    
+function play()
+{
+    click.play();
+	window.open("game.html");
+}
+
+function playBlock()
+{
+    //window.open("world select.html");
+    play();
+}   
+ 
+    /*
+    	<img class="steveImage" id="SteveImage" src="assets/images/steve.png"> <img class="zombieImage" id="zombieImage" src="assets/images/zombie.png">
+	 <br> <div class="heartsD"><img id="heart1" class="hearts" src="assets/images/heartFull.png"> <img class="hearts"  id="heart2" src="assets/images/heartFull.png"> <img class="hearts" id="heart3" src="assets/images/heartFull.png"> <img id="heart4" class="hearts"  src="assets/images/heartFull.png"> <img id="heart5" class="hearts"  src="assets/images/heartFull.png"> <img id="heart6" class="hearts"  src="assets/images/heartFull.png"> <img id="heart7" class="hearts"  src="assets/images/heartFull.png"> <img id="heart8" class="hearts"  src="assets/images/heartFull.png"> <img id="heart9" class="hearts"  src="assets/images/heartFull.png"> <img id="heart10" class="hearts"   src="assets/images/heartFull.png"> </div>
+    
+    */
+    
+function MultiPlay()
+{
+    click.play();
+    window.open("https://knowyourmeme.com/memes/trollface");
+}
+
+</script>
+	<body>
+
+     
+    <img class="logo1" id="Logo1" src="assets/images/Minecraft Logo.png"> 
+                <div class="splashText">Also try Minecraft!</div>
+
+	
+    <div class="buttons">
+        <button onclick="playBlock()" class="blockButton TitleButton">Singleplayer</button> <br> <br>
+        <button onclick="play()" class="SingleplayerButton TitleButton">Dungeons</button> <br> <br>
+        
+        <button class="MultiplayerButton TitleButton" onclick="MultiPlay()">Multiplayer </button>
+        </div>
+        
+        <h4 class="creds">Game created by Noah Doran (DogeDoge) 2021 || Orignal Game By Mojang</h4>
+	</body>
+	</html>
