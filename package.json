@@ -1,0 +1,9 @@
+{
+  "name": "mcpoggersedition",
+  "type": "module",
+  "version": "0.4",
+  "private": true,
+  "repository": false,
+  "author": "DogeDoge",
+  "license": "UNLICENSED",
+}

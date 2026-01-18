@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+
+<body></body>
+
+<script>
+
+// JavaScript program to demonstrate working of
+// recursion
+
+function printFun(tests)
+	{
+		if (tests < 1)
+			return;
+		else {
+									printFun(tests - 1); // statement 2
+
+			document.write(tests + " ");
+			document.write(tests + " ");
+
+			return;
+		}
+	}
+
+// Driver code
+	let test = 100;
+	printFun(test);	
+	</script>	
+</html>

@@ -1,0 +1,87 @@
+<doctype html>
+	<html>
+	<head>
+		<title>3D Minecraft</title>
+	</head>
+
+<style type="text/css">
+    
+    @font-face 
+    {
+        font-family: 'Minecraft';
+        src: url('assets/fonts/Main Menu/Minecraft-Regular.eot');
+        src: url('assets/fonts/Main Menu/Minecraft-Regular.eot?#iefix') format('embedded-opentype'),
+            url('assets/fonts/Main Menu/Minecraft-Regular.woff2') format('woff2'),
+            url('assets/fonts/Main Menu/Minecraft-Regular.woff') format('woff'),
+            url('assets/fonts/Main Menu/Minecraft-Regular.ttf') format('truetype'),
+            url('assets/fonts/Main Menu/Minecraft-Regular.svg#Minecraft-Regular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    
+    
+    .TitleButton
+    {
+        width: 40%;
+        height: 7%;
+        font-size: 30px;
+        color: white;
+        border: 1px solid black;
+        font-family: 'Minecraft'; font-weight: normal; font-style: normal;
+        background-color: lightGray;
+        background: url('assets/images/Button Bg.png');
+        background-repeat: no-repeat;
+        text-shadow: 4px 1px #343434;
+        background-size: 100% 100%;
+
+    }
+    
+    body 
+    {
+        margin: 0;
+    }
+
+    
+</style>
+
+<script src="script/three.js"></script>
+<script type="text/javascript">
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+    const geometry = new THREE.BoxGeometry();
+    const materials = [
+        new THREE.MeshBasicMaterial({map: loader.load('assets/3d/textures/blocks/grass_side.png')}),
+        new THREE.MeshBasicMaterial({map: loader.load('assets/3d/textures/blocks/grass_side.png')}),
+        new THREE.MeshBasicMaterial({map: loader.load('assets/3d/textures/blocks/grass_side.png')}),
+        new THREE.MeshBasicMaterial({map: loader.load('assets/3d/textures/blocks/grass_side.png')}),
+        new THREE.MeshBasicMaterial({map: loader.load('assets/3d/textures/blocks/grass_side.png')}),
+        new THREE.MeshBasicMaterial({map: loader.load('assets/3d/textures/blocks/grass_side.png')}),
+    ];   
+
+    const cube = new THREE.Mesh(geometry, materials);
+    scene.add( cube );
+
+    camera.position.z = 5;
+
+    const animate = function ()
+    {
+        requestAnimationFrame( animate );
+
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+
+        renderer.render( scene, camera );
+    };
+    
+    animate();
+</script>
+	<body>
+        
+        
+	</body>
+	</html>

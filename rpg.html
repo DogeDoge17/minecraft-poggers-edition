@@ -1,0 +1,3203 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Dungeons</title>
+      	
+		<!--you might spoil things for yourself be being in here. Just a heads up!-->
+		<!--idc tho, do whatever-->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=1366,height=768, initial-scale=1.0" />
+        <meta name="author" content="DogeDoge" />
+        <meta name="description" content="Minecraft but epic" />
+        <meta name="keywords" content="Minecraft, Pog, MCPoggers, MinecraftPoggersEdition" />
+        
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+        <script src="script/howler.core.js"></script>
+        <script type="text/javascript" scr="script/jquery-3.6.0.js"> </script>
+
+<script type="text/javascript">
+	
+//WHEN THE CODE IS SUS xDDDDDDDDDDDDDDDDDDD 😐
+//Watch out baby! I now know how to use classes 😈
+//idk what to use classes for in this :fuukaretarded: (https://personafans.com/wp-content/uploads/2022/05/Fuuka-Yamagishi.png) <-- that
+//if you're wonderinf about the warp stuff, it's for me to find code cuz it's not organized
+	
+//warp Top	 
+var enemyHealth = [0, 0, 0, 0]; //How much health each enemy will have
+var playerHealth = 20; //Your health
+
+var sfx = { //sound effects
+    backgroundMusic: new Howl({
+        src: ['assets/sounds/background.mp3']
+    }),
+    
+    death: new Howl({
+        src: ['assets/sounds/Death.mp3']
+    }),
+    
+    totem: new Howl({
+        src: ['assets/sounds/Totem.mp3']
+    })
+};    
+            
+//var deathSound = new Audio('assets/sounds/Death.mp3');
+            
+var attackStart = false; //old
+var pressOne = 1; //To tell what press you're on when you are dead
+var pressOneZ = 1; //To tell what press you're on you're pressing the attack on a dead enemy
+
+var enemyAttack = [3.5,4] //the amount of damage the 4 guys will deal
+var AttackDamage = 3; //your attack damage    
+           
+	
+const weaponList = ["Wooden Sword", "Stone Sword","Iron Sword", "Gold Sword", "Diamond Sword"];
+const weaponTypeList = ["phys","phys", "phys", "phys", "phys"];
+const weaponPower = [3,4,6,4,7]
+const weaponRecipe = ["Wood:Stick", "Stone:Stick", "Iron Bar:Stick", "Gold Bar:Stick", "Diamond:Stick"];
+var weaponObtained = [true,true,false, false, false];
+
+var weaponEquipped = "Stone Sword";
+var attackType = "Phys";	
+	
+var activeFood = 0; //what food is gonna be eaten
+var foodLeft = [1000,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,0,0,0,0,10]    
+const foodList = ["apple","baked potato","beetroot","beetroot soup","bread","cake","carrot","chorus fruit","chicken", "cod","mutton","porkchop","rabbit","salmon","cookie","kelp","glow berries","golden carrot", "honey bottle","melon slice","mushroom stew", "pumpkin pie","rabbit stew","steak"]
+const foodEfficiency = [4,5,1,6,5,2,3,4,6,5,5,8,5,6,2,1,2,6,6,2,6,8,10,] //The amount of health you get back each time you eat
+
+var currentArea = 1; //What portion of the level you are on
+var currentLevel = 1; //The floor or part of world
+var maxLevel = 1;
+var currentEnemy = 0; //What enemy you're attacking out of the 4
+var currentEnemies = ["Zombie"]; //Displays what enemys are on the board.        
+         
+var killedEnemies = 0; //for the proceed button
+
+var mobList = ["Zombie", "Skeleton", "Spider", "Creeper", "Enderman", "Witch", "Cave Spider" ,"Wither Skeleton", "Blaze", "Obama"] //You're missing out on all this cuz you're so bad
+
+const mobWeakness = ["Fire,Light", "Fire,Light", "Phys", "null", "Ice,Light", "Light", "Phys", "Light", "Ice", "Curse"];
+const mobResist = ["Curse", "Curse", "null", "null", "Light","Lightning","null","Curse","null","Light"];
+const mobNull = ["null","null","null","null","Gun","null","null","Fire","null","null"]
+const mobDrain = ["null","null","null","null","null","null","null","null","Fire","null"]
+const mobRepel = ["null","null","null","null","null","null","null","null","null","null"]
+
+const projectileList = ["Skeleton", "Witch", "Blaze", "Obama"]//Add a mob to this to make it a ranged enemy
+const mixedList = ["Blaze"]//Will deal projectile damage and normal damage upon attack
+const witherList = ["Wither Skeleton", "Wither", "Obama"]
+const poisonList = ["Cave Spider"]
+const fireList = ["Blaze"]
+const angerList = ["Enderman"]//When you attack them they will anger: >:( <-- that.
+
+const levelOne = ["Zombie", "Skeleton", "Spider", "Creeper", "Enderman", "Witch"];
+const levelTwo = ["Zombie", "Skeleton", "Spider", "Creeper", "Enderman", "Witch"];
+const levelThree = ["Zombie", "Skeleton", "Spider", "Creeper", "Enderman", "Witch", "Cave Spider"];
+const levelFour = ["Wither Skeleton", "Blaze", "Skeleton", "Enderman"];
+
+var heartFullUrl = "assets/images/hearts/normalFull.png";
+var heartHalfUrl = "assets/images/hearts/normalHalf.png";
+var heatEmptyUrl = "assets/images/hearts/normalEmpty.png";
+
+var r = document.querySelector(':root'); // r.style.setProperty('--blue', 'lightblue');
+	
+const effectList = ["Poison", "Wither", "Fire"];//Type of effects you may recive
+var effectDuration = [0, 0, 0];
+const ailmentChance = 30;
+	
+var musicStarted = false;//was gonna be for background music
+            
+var items = ["Almighty Jar","Milk","Golden Apple","Gapple","Helmet Base","Chestplate Base", "Leggings Base","Boots Base","Wood","Stick","Gunpowder", "Might", "Bucket", "Stone","Iron Bar","Gold Bar", "Gold Block","Diamond","Netherite","Totem", "Dodge"]; //item list or something
+var itemsAmounts = [10,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]; //the amount of items you have left
+const itemsDescription = ["Severe almighty damage to all foes","Cures you of all status aliments","Like the gapple but better","Heals you or something", "The base of a helmet","The base of a chestplate","The base of leggings","The base of boots","wood","It's a stick made of wood",'Goes "KABOOM" Drops from creepers', "Essence of one who is powerful", "An empty bucket", "Rock found in the mines","Iron found in the mines","Gold found in the mines","Large cube of pure gold","Diamond found in the mines. Very valuable","An ore found in the depths of hell","Revives once if you fall", "Helps you dodge 'n stuff"];
+const itemUsable = [true,true,true,true,false,false,false,false,false,false,false,false,false,false];
+const itemType = ["almighty","heal","heal","heal","crafting","crafting","crafting","crafting","crafting","crafting","crafting","crafting","crafting","crafting","crafting","crafting","crafting","crafting", "crafting", "passive","passive"];
+const itemRecipe = ["Gunpowder:Might", "Bucket:Cow", "Gold Bar:Apple", "Gold Block:Apple","null","null","null","null","null","Wood:Wood", "null", "null", "Iron Bar:Iron Bar","null","null","null", "Gold Bar:Gold Bar", "null","null", "null","null"];
+
+var chestLocation = ["1:1"];
+var chestContents = ["cookie-6"];
+var chestSkins = ["Oak"];
+var chestActive = false;
+var chestOpened = [false];
+const chestChance = 15;
+var lootPool = ["Dodge", "Totem", "Milk", "Golden Apple", "Helmet Base", "Chestplate Base", "Leggings Base", "Boots Base"];
+lootPool = lootPool.concat(foodList);
+	
+var currentTutorial = 0;
+
+const tutorialHeader = ["Intro", "Intro", "Intro", "Intro", "Intro", "Intro", "Attacking", "Attacking", "Attacking", "Attacking", "Attacking", "Healing", "Healing", "Healing", "Healing", "Healing", "Player Damage", "Player Damage", "Player Damage", "Armor", "Armor", "Armor", "Armor","Inventory", "Inventory"];
+const tutorialParagraph = ["Looks like this is your first time playing!", "This tutorial will teach the basics of the game", "You may read the README.txt to get a recap and more tips","I would like to stress that this game isn't complete yet...","Some features mentioned may not be in the game and might never will be", "You may now skip if you so choose to", 'Press the "Attack" button to attack an enemy',"After attacking an enemy enough it will die", "Your life takes priority. So don't worry about you both dying", "After killing an enemy you will automatically swap to the next one. Beware of that", "You may also target enemies by clicking on them on board or pressing a number 1-4", 'Click the "< Eat >" button to heal', "You will gain a certain amount of health back depending on what you eat", "You can switch food using the left and right arrow keys", "After you switch, the food you have switched to will be displayed over here", "You will also regenerate health every so often", "Every time you attack an enemy it will retaliate by hitting you back", "You can dodge if you have a dodge item", 'The more "dodges" you have the higher chance you will have for an enemy to miss an attack', "You may use armor to negate damage", "The better the armor equipped the less damage you take", "Don't worry about armor breaking as it can not", "You can equip armor in the Armor tab in the inventory", "Speaking of inventory", "You can open the inventory using the backpack button"];
+const tutorialPosition = ["50, 50", "50, 50", "50, 50","50,50","50,50", "50, 50",	 "25, 60","50, 55", "50, 55", "80, 23", "80, 23",	 "76, 60", "50, 42", "85, 85", "20, 85", "50, 42",	    "80, 23", "80, 23", "80, 23",	 "50, 50", "50, 50", "50, 50", "10, 50",	 "50, 50"];
+
+var currentEndTutorial = -1;
+const tutorialEndHeader = ["Outro", "Outro", "Outro"]
+const tutorialEndParagraph = ["This concludes the tutorial", "If you forget something you can always read the README.txt", "Have fun and good luck!"]
+const tutorialEndPosition = ["50, 50", "50, 50", "50, 50"]
+
+const tutorialBackOut = 5;
+var tutorialOpen = false;	
+	
+const armorList = ["No Helmet","No Chestplate","No Leggings","No Boots","Leather Cap", "Leather Tunic", "Leather Pants", "Leather Boots","Gold Helmet", "Gold Chestplate", "Gold Leggings", "Gold Boots",  "Chainmail Helmet", "Chainmail Chestplate", "Chainmail Leggings", "Chainmail Boots", "Iron Helmet", "Iron Chestplate", "Iron Leggings", "Iron Boots", "Diamond Helmet", "Diamond Chestplate", "Diamond Leggings", "Diamond Boots", "Netherite Helmet", "Netherite Chestplate", "Netherite Leggings", "Netherite Boots"]	
+var hasArmor = [true,true,true,true,false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+var armorEquipped = ["No Helmet", "No Chestplate", "No Leggings", "No Boots"];
+const armorValue = [0,0,0,0,1, 3, 2, 1, 2, 5, 3, 1, 2, 5, 4, 1, 2, 6, 5, 2, 3, 8, 6, 3, 3, 8, 6, 3];
+const armorRecipe = [null,null,null,null,"Helmet Base:Leather", "Chestplae Base:Leather", "Leggings Base:Leather", "Boots Base:Leather", "Helmet Base:Gold Bar","Chestplate Base:Gold Bar", "Leggings Base:Gold Bar","Boots Base:Gold Bar",null,null,null,null,"Helmet Base:Iron Bar","Chestplate Base:Iron Bar","Leggings Base:Iron Bar","Boots Base:Iron Bar","Helmet Base:Diamond","Chestplate Base:Diamond","Leggings Base:Diamond","Boots Base:Diamond","Helmet Base:Netherite","Chestplate Base:Netherite","Leggings Base:Netherite","Boots Base:Netherite"]
+	
+var inventoryOpen = false;
+	
+const defaultMobSize = ["11", "21"];
+
+function setBrackets()
+{
+    document.getElementById("ProceedButton").innerHTML = "Proceed >>>";
+}    
+
+function startUpActions()
+{
+	document.getElementById("mouthWash").innerHTML = "Area:" + currentArea + " Level:" + currentLevel;
+	if(itemsAmounts[items.indexOf("Totem")] >= 1)
+	{
+		document.getElementById("totemUndying").style.display = "block";
+	}
+	
+	document.getElementById("bgImage").style.backgroundImage = "url('assets/images/backdrops/" + currentLevel + "/UI.png')";
+   document.getElementById("GamePortion").style.backgroundImage = "url('assets/images/backdrops/"+ currentLevel +"/gameplay.png')";
+	
+
+	//LoadData();
+	
+	/*if(localStorage.getItem('MCPtutorial') == null || localStorage.getItem('MCPtutorial') == false || localStorage.getItem('MCPtutorial') == "false")
+	{
+		document.getElementById("tutorialBox").style.display = "block";
+		document.getElementById("tutorialTint").style.display = "block";
+		document.getElementById("tutorialSection").innerHTML = tutorialHeader[currentTutorial]
+		document.getElementById("tutorialParagraph").innerHTML = tutorialParagraph[currentTutorial]
+		setTutorialPostion()
+		setTimeout(tutorialStart, 3000)
+		tutorialOpen = true;
+	}	*/
+}           
+	
+function LoadData()
+{
+	if(localStorage.getItem("MCPitemsAmount") != null)
+		itemsAmounts = localStorage.getItem("MCPitemsAmount");
+	if(localStorage.getItem("MCPfoodLeft") != null)
+		foodLeft = localStorage.getItem("MCPfoodLeft");
+	
+}	
+	
+var saveInterval = setInterval(SaveData, 1000)
+	
+function SaveData()
+{
+	localStorage.setItem('MCPitemsAmount', itemsAmounts);
+	localStorage.setItem('MCPfoodLeft', foodLeft);
+	
+	if(playerHealth > 0)
+	{
+		localStorage.setItem('MCPplayerHealth', playerHealth);
+		localStorage.setItem('MPCenemyAttack', enemyAttack);
+		localStorage.setItem('MCPcurrentArea', currentArea);
+		localStorage.setItem('MCPcurrentLevel', currentLevel);
+		localStorage.setItem('MCPmaxLevel', maxLevel);
+		localStorage.setItem('MCPcurrentEnemies', currentEnemies);
+      localStorage.setItem('MCPhasArmor', hasArmor);
+		localStorage.setItem('MCParmorEquipped', armorEquipped);
+	}
+}	
+	
+function randomLife()
+{       
+    var enemyAmount;
+	 
+    var enemyType1 = 0;
+    var enemyType2 = 0;
+    var enemyType3 = 0;
+    var enemyType4 = 0;
+    
+	 enemyHealth[0] = 0;
+	 enemyHealth[1] = 0;
+	 enemyHealth[2] = 0;
+	 enemyHealth[3] = 0;
+	 
+	 
+    document.getElementById("enemyOne").style.display = "none";
+    document.getElementById("enemyTwo").style.display = "none";
+    document.getElementById("enemyThree").style.display = "none";
+    document.getElementById("enemyFour").style.display = "none";
+
+	//setEnemy(id, name, minAttack, maxAttack, minHealth, maxHealth, maxRnd, rndPoint)
+    
+    if(currentLevel == 1)
+    {   
+        if(currentArea == 1)
+        {
+				//setEnemy(1, "Zombie", 1, 2, 4, 5);
+				setEnemy(1, "Witch", 1, 2, 4, 500);
+        }
+        if(currentArea == 2)
+        {
+				setEnemy(1, "one", 1, 2, 5, 8);
+			  	setEnemy(2, "one", 1, 2, 5, 8, 2, 2);
+        }
+        if(currentArea == 3)
+        {
+			  	setEnemy(1, "one", 1, 2, 7, 9);
+			  	setEnemy(2, "one", 1, 2, 5, 8);
+			  	setEnemy(3, "one", 1, 2, 5, 8, 2, 2);
+        }if(currentArea == 4)
+        {
+			  	setEnemy(1, "one", 1, 2, 7, 9);
+			  	setEnemy(2, "one", 1, 2, 7, 9, 2, 2);
+			  	setEnemy(3, "one", 1, 2, 7, 9, 2, 2, 4, 3);
+        }
+		  if(currentArea == 5)
+        {
+ 			  	setEnemy(1, "one", 1, 2, 9, 9);
+			  	setEnemy(2, "one", 1, 2, 7, 12);
+			  	setEnemy(3, "one", 1, 2, 7, 9, 2, 2);
+        }
+    }
+	 
+    if(currentLevel == 2)
+    {   
+        if(currentArea == 1)
+        {
+ 			  	setEnemy(1, "two", 1, 2, 9, 9);
+        }
+        if(currentArea == 2)
+        {
+        		setEnemy(1, "two", 1, 2, 8, 14);
+			   setEnemy(2, "two", 1, 2, 5, 16);
+			   setEnemy(3, "two", 1, 2, 4, 9, 2, 2);
+        }
+        if(currentArea == 3)
+        {
+			  	setEnemy(1, "two", 1, 2, 9, 9);
+			   setEnemy(2, "two", 1, 2, 6, 17);
+			   setEnemy(3, "two", 1, 2, 4, 9, 5, 2);
+        }if(currentArea == 4 || currentArea > 5)
+        {
+			  	setEnemy(1, "two", 1, 2, 9, 9);
+			   setEnemy(2, "two", 1, 2, 6, 17);
+			   setEnemy(3, "two", 1, 2, 4, 9, 5, 2);
+		  }
+		  if(currentArea == 5  || currentArea > 5)
+        {
+			  	setEnemy(1, "Skeleton", 2, 3, 25, 150,null,null,[30,50]);
+        }
+    }
+	 if(currentLevel == 3)
+    { 
+        if(currentArea == 1)
+        {
+				setEnemy(1, "three", 1, 1, 5, 15);
+        }
+        if(currentArea == 2)
+        {
+				setEnemy(1, "three", 1, 2, 8, 18);
+			  	setEnemy(2, "three", 1, 2, 9, 17, 5, 2);
+			  	setEnemy(3, "three", 1, 2, 5, 13, 5, 2);
+        }
+        if(currentArea == 3)
+        {
+				setEnemy(1, "three", 1, 2, 8, 18);
+			  	setEnemy(2, "three", 1, 2, 9, 17);
+			  	setEnemy(3, "three", 1, 2, 5, 13, 5, 2);
+
+        }if(currentArea == 4)
+        {
+				setEnemy(1, "three", 1, 2, 8, 18);
+			  	setEnemy(2, "three", 1, 2, 9, 17);
+			  	setEnemy(3, "three", 1, 2, 5, 13, 5, 2);
+
+		 }
+		 if(currentArea == 5)
+       {
+			setEnemy(1, "three", 1, 2, 8, 18);
+			setEnemy(2, "three", 1, 2, 9, 17);
+			setEnemy(3, "three", 1, 2, 5, 13, 5, 2);
+
+   	}	
+	 }
+		if(currentLevel == 4)
+    	{ 
+      	if(currentArea == 1)
+        	{
+				setEnemy(1, "four", 1, 1, 5, 15);
+        	}
+        	if(currentArea == 2)
+        	{
+				setEnemy(1, "four", 1, 2, 8, 18);
+			  	setEnemy(2, "four", 1, 2, 9, 17, 5, 2);
+			  	setEnemy(3, "four", 1, 2, 5, 13, 5, 2);
+        	}
+        	if(currentArea == 3)
+        	{
+				setEnemy(1, "four", 1, 2, 8, 18);
+			  	setEnemy(2, "four", 1, 3, 9, 17);
+			  	setEnemy(3, "four", 1, 2, 5, 13, 5, 2);
+
+        	}if(currentArea == 4)
+        	{
+				setEnemy(1, "four", 1, 2, 8, 18);
+			  	setEnemy(2, "four", 1, 2, 9, 17);
+			  	setEnemy(3, "four", 1, 3, 5, 13, 5, 2);
+
+		 	}
+		 	if(currentArea == 5 || currentArea > 5)
+       	{
+				setEnemy(1, "four", 1, 3, 8, 18);
+				setEnemy(2, "four", 1, 3, 9, 17);
+				setEnemy(3, "four", 1, 3, 5, 13, 5, 2);
+   		}  
+   	}        
+    
+   setEnemyHealth();
+   setEnemySprites();
+	CheckForChest();
+} 
+
+function setRndEnemy(level)
+{
+	if(level == "one" || level == 1)
+		return levelOne[rndInteger(0, levelOne.length - 1)]
+	if(level == "two" || level == 2)
+		return levelTwo[rndInteger(0, levelTwo.length - 1)]
+	if(level == "three" || level == 3)
+		return levelThree[rndInteger(0, levelThree.length - 1)]
+	if(level == "four" || level == 4)
+		return levelFour[rndInteger(0, levelFour.length - 1)]
+}	
+		
+	
+function setEnemy(id, name, minAttack, maxAttack, minHealth, maxHealth, maxRnd, rndPoint, size)
+{
+	id -= 1; 
+	if(rndPoint != null && rndInteger(1, maxRnd) >= rndPoint || rndPoint == null && maxRnd != null && percentBool(maxRnd))
+	{	
+		enemyHealth[id] = rndInteger(minHealth, maxHealth);
+		enemyAttack[id]= rndInteger(minAttack, maxAttack);
+		if(mobList.includes(name) == false)
+		{
+			currentEnemies[id] = setRndEnemy(name);
+		}
+		else
+		{
+			currentEnemies[id] = name;
+		}
+	}
+	else
+	{
+		currentEnemies[id] = name;
+		enemyHealth[id] = rndInteger(minHealth, maxHealth);
+		enemyAttack[id]= rndInteger(minAttack, maxAttack);
+		if(mobList.includes(name) == false)
+		{
+			currentEnemies[id] = setRndEnemy(name);
+		}
+		else
+		{
+			currentEnemies[id] = name;
+		}
+	}
+	if(size != null)
+	{
+		if(id == 0){document.getElementById("enemyOne").style.width = size[0] + "%"; document.getElementById("enemyOne").style.height = size[1] + "%";}
+		if(id == 1){document.getElementById("enemyTwo").style.width = size[0] + "%"; document.getElementById("enemyOne").style.height = size[1] + "%";}	
+		if(id == 2){document.getElementById("enemyThree").style.width = size[0] + "%"; document.getElementById("enemyOne").style.height = size[1] + "%";}
+		if(id == 3){document.getElementById("enemyFour").style.width = size[0] + "%"; document.getElementById("enemyFour").style.height = size[1] + "%";}
+
+	}else
+	{
+		document.getElementById(getEnemyId(id)).style.width = defaultMobSize[0] + "%"; document.getElementById("enemyOne").style.height = defaultMobSize[1] + "%";
+	}
+		
+	if(id == 0)	document.getElementById("enemyOne").style.display = "block";
+	if(id == 1)	document.getElementById("enemyTwo").style.display = "block";
+	if(id == 2)	document.getElementById("enemyThree").style.display = "block";
+	if(id == 3)	document.getElementById("enemyFour").style.display = "block";
+}	
+		
+function getEnemyId(id)
+{
+	if(id == 0) return "enemyOne";
+	if(id == 1)	return "enemyTwo";
+	if(id == 2)	return "enemyThree";
+	if(id == 3)	return "enemyFour";
+
+}	
+	
+var combinedSpot = currentLevel + ":" + currentArea;
+
+function CheckForChest()
+{
+	if(chestLocation[chestLocation.indexOf(combinedSpot)] == combinedSpot)
+	{
+		chestActive = true;		
+	}else if(percentBool(chestChance))
+	{
+		GenerateChest();
+		//NewLine("The");
+	}else
+	{
+		//NewLine("fail")
+	}
+}	
+	
+function GenerateChest()
+{
+	var chestAmount = rndInteger(0,5);
+	let loops = -1;
+	let loops2 = -1;
+	var chestItems = ["Stuff-0","Stuff-0","Stuff-0","Stuff-0", "Stuff-0"];
+	var fullChestID = "";
+		
+	chestItems.forEach(function(item)
+	{
+		loops++;
+		if(loops <= chestAmount)
+		{
+			chestItems[loops] = lootPool[rndInteger(0, lootPool.length - 1)] + "-" + rndInteger(1, 3 * currentLevel);
+		}
+	}); 
+	
+	
+	//window.confirm(chestItems);
+
+	chestItems.forEach(function(item)
+	{
+		loops2++;
+		
+		if(loops2 < chestAmount)
+		{
+			fullChestID += chestItems[loops2] + ":";
+		}else if(loops2 == chestAmount)
+		{
+			fullChestID += chestItems[loops2];
+		}
+	
+	});   
+	//window.confirm("bork");
+	//window.confirm(fullChestID);
+	chestActive = true;
+	
+	chestLocation.push(currentLevel + ":" + currentArea)
+	chestContents.push(fullChestID)
+	chestSkins.push("Oak");
+	chestOpened.push(false);
+	//CheckForChest();			
+}
+	
+	
+function OpenChest()
+{	
+	let chestIndex = chestLocation.indexOf(combinedSpot);
+	let chestInsides = [];
+	let outputString = "You have discovered: ";
+	
+	
+	if(!chestOpened[chestLocation.indexOf(combinedSpot)])
+	{
+
+	if(chestIndex > -1)
+	{
+			chestInsides = chestContents[chestIndex].split(":");
+
+		chestInsides.forEach(function(item)
+		{
+			let bruhMoment;
+			
+			bruhMoment = item.split("-");
+			
+			if(items.indexOf(bruhMoment[0]) != -1)
+			{
+				itemsAmounts[items.indexOf(bruhMoment[0])] += parseInt(bruhMoment[1]);
+				outputString += bruhMoment[1] + " " + bruhMoment[0] + "(s), "
+			}
+			else
+			{
+				foodLeft[foodList.indexOf(bruhMoment[0])] += parseInt(bruhMoment[1]);
+				outputString += bruhMoment[1] + " " + bruhMoment[0] + "(s), "
+				
+			}
+		}); 
+		
+		NewLine(outputString);
+		r.style.setProperty('--chestUrl', "url('assets/images/chests/"+ chestSkins[chestLocation.indexOf(combinedSpot)] +"Open.png')");
+
+		chestActive = false;
+		chestOpened[chestLocation.indexOf(combinedSpot)] = true;
+	}else
+	{
+		//window.confirm("ERROR: Chest failed to load. Continuing without the chest.")
+	}
+	}else
+	{
+		NewLine("You've already looted this chest.")
+	}
+	
+}
+
+
+function setEnemySprites(checkForDead)
+{
+   //0 is a zombie, 1 is a skeleton, 2 is a spider, 3 is a creeper, 4 is an enderman, 5 is a witch
+   //sorted by enemy type for easy mob additions
+	
+	if(checkForDead == null || false)
+	{
+		
+		document.getElementById("enemyOne").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[0] + '/Idle.png")';
+	 	document.getElementById("enemyTwo").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[1] + '/Idle.png")';
+	 	document.getElementById("enemyThree").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[2] + '/Idle.png")';
+	 	document.getElementById("enemyFour").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[3] + '/Idle.png")';
+	}else
+	{
+		if(enemyHealth[0] > 0){	document.getElementById("enemyOne").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[0] + '/Idle.png")';}
+		if(enemyHealth[1] > 0){	document.getElementById("enemyTwo").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[1] + '/Idle.png")';}
+		if(enemyHealth[2] > 0){	document.getElementById("enemyThree").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[2] + '/Idle.png")';}
+		if(enemyHealth[3] > 0){	document.getElementById("enemyFour").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[3] + '/Idle.png")';}
+	}
+}
+            
+function hideEnemies()
+{
+    document.getElementById("enemyThree").style.display = "none";
+    document.getElementById("enemyTwo").style.display = "none";
+    document.getElementById("enemyThree").style.display = "none";
+    document.getElementById("enemyThree").style.display = "none";
+}
+            
+	
+	
+{	var skeleShoot;	skeleShoot = setInterval(projectileShoot, 5000); }
+            
+var projectileHover1 = false;
+var projectileHover2 = false;
+var projectileHover3 = false;
+var projectileHover4 = false;
+           
+function projectileShoot() //warp Shoot warp projectile
+{
+	if(playerHealth > 0)
+	{
+	 	document.getElementById("projectilePoint1").style.display = "none";
+	 	document.getElementById("projectilePoint2").style.display = "none";
+	 	document.getElementById("projectilePoint3").style.display = "none";
+	 	document.getElementById("projectilePoint4").style.display = "none";
+
+
+    	if(projectileList.includes(currentEnemies[0])) 
+    	{
+			if(enemyHealth[0] >= 1){
+        		projectileHover1 = true;
+				projectileDetected(1);
+				document.getElementById("projectilePoint1").style.display = "block";
+				NewLine("Drawing Weapon")
+            document.getElementById("enemyOne").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[0] + '/Aim.png")';
+				setTimeout(projectileShot, 3000); 
+				}
+    	} 
+    	if(projectileList.includes(currentEnemies[1])) 
+    	{ 
+				if(enemyHealth[1] >= 1)
+				{
+        			projectileHover2 = true;
+					projectileDetected(2);
+		  			document.getElementById("projectilePoint2").style.display = "block";
+					NewLine("Drawing Weapon")	
+					document.getElementById("enemyTwo").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[1] + '/Aim.png")';
+					setTimeout(projectileShot, 3000); 
+				}
+    	}
+    	if(projectileList.includes(currentEnemies[2])) 
+    	{
+				if(enemyHealth[2] >= 1)
+				{
+       			projectileHover3 = true;
+					projectileDetected(3);
+		  			document.getElementById("projectilePoint3").style.display = "block";
+					NewLine("Drawing Weapon")
+					document.getElementById("enemyThree").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[2] + '/Aim.png")';
+					setTimeout(projectileShot, 3000); 
+				}
+    	}
+    	if(projectileList.includes(currentEnemies[3])) 
+    	{
+				if(enemyHealth[3] >= 1)
+				{
+        			projectileHover4 = true;
+        			projectileDetected(4);
+		  			document.getElementById("projectilePoint4").style.display = "block";
+					NewLine("Drawing Weapon")
+					document.getElementById("enemyFour").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[3] + '/Aim.png")';
+					setTimeout(projectileShot, 3000); 
+				}
+    	}
+	}
+	else
+	{
+	 	document.getElementById("projectilePoint1").style.display = "none";
+	 	document.getElementById("projectilePoint2").style.display = "none";
+	 	document.getElementById("projectilePoint3").style.display = "none";
+	 	document.getElementById("projectilePoint4").style.display = "none";
+	}
+    
+}   
+
+function projectileShot()
+{
+	
+	 if(projectileHover1 == true && enemyHealth[0] > 0 && projectileList.includes(currentEnemies[0]))
+	 {
+		document.getElementById("projectilePoint1").style.display = "none";
+	 	projectileHover1 = false;
+		if(currentEnemies[0] != "Witch")
+		{
+			playerHealth -= enemyAttack[0];
+		}else
+		{
+			if(effectDuration[0] <= 0)
+			{
+				effectDuration[0] = 10;
+			}else
+			{
+				playerHealth -= enemyAttack[0]
+			}
+		}
+		healthDepleationSystem();
+		document.getElementById("enemyOne").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[0] + '/Shot.png")';
+	 }
+	 if(projectileHover2 == true && enemyHealth[1] > 0 && projectileList.includes(currentEnemies[1]))
+	 {
+	 	projectileHover2 = false;
+	 	document.getElementById("projectilePoint2").style.display = "none";
+		if(currentEnemies[1] != "Witch")
+		{
+			playerHealth -= enemyAttack[1];
+		}else
+		{
+			if(effectDuration[1] <= 0)
+			{
+				effectDuration[1] = 10;
+			}else
+			{
+				playerHealth -= enemyAttack[1]
+			}
+		}
+		healthDepleationSystem();
+		document.getElementById("enemyTwo").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[1] + '/Shot.png")';
+	 }
+	 if(projectileHover3 == true && enemyHealth[2] > 0 && projectileList.includes(currentEnemies[2]))
+	 {
+	 	projectileHover3 = false;
+	 	document.getElementById("projectilePoint3").style.display = "none";
+		if(currentEnemies[2] != "Witch")
+		{
+			playerHealth -= enemyAttack[2];
+		}else
+		{
+			if(effectDuration[2] <= 0)
+			{
+				effectDuration[2] = 10;
+			}else
+			{
+				playerHealth -= enemyAttack[2]
+			}
+		}		healthDepleationSystem();
+		document.getElementById("enemyThree").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[2] + '/Shot.png")';
+	 }
+	 if(projectileHover4 == true && enemyHealth[3] > 0 && projectileList.includes(currentEnemies[3]))
+	 {
+	 	projectileHover4 = false;
+		document.getElementById("projectilePoint4").style.display = "none";
+		if(currentEnemies[3] != "Witch")
+		{
+			playerHealth -= enemyAttack[3];
+		}else
+		{
+			if(effectDuration[3] <= 0)
+			{
+				effectDuration[3] = 10;
+			}else
+			{
+				playerHealth -= enemyAttack[3]
+			}
+		}		
+		document.getElementById("enemyFour").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[3] + '/Shot.png")';
+		healthDepleationSystem();
+	 }
+}
+
+function projectileDetected(enemyType)
+{
+	if(enemyType == 1)
+	{
+   	document.getElementById("projectilePoint1").style.top = rndInteger(5,40) + "%";
+		document.getElementById("projectilePoint1").style.left = rndInteger(10,90) + "%";
+	} 
+	if(enemyType == 2)
+	{
+   	document.getElementById("projectilePoint2").style.top = rndInteger(5,40) + "%"; 
+		document.getElementById("projectilePoint2").style.left = rndInteger(10,90) + "%"; 
+	}
+	if(enemyType == 3)
+	{
+   	document.getElementById("projectilePoint3").style.top = rndInteger(5,40) + "%"; 
+		document.getElementById("projectilePoint3").style.left = rndInteger(10,90) + "%"; 
+	} 
+	if(enemyType == 4)
+	{
+   	document.getElementById("projectilePoint4").style.top = rndInteger(5,40) + "%"; 
+		document.getElementById("projectilePoint4").style.left = rndInteger(10,90) + "%"; 
+	} 
+}
+  
+function projectileHover(enemyNumber)
+{
+	if(enemyNumber == 1 && projectileList.indexOf(currentEnemies[0]) != -1 && enemyHealth[0] > 0)
+	{
+		projectileHover1 = false;
+		document.getElementById("projectilePoint1").style.display = "none"; 
+		NewLine("Dodged");
+		document.getElementById("enemyOne").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[0] + '/Idle.png")';
+
+	}
+	if(enemyNumber == 2 && projectileList.indexOf(currentEnemies[1]) != -1 && enemyHealth[1] > 0)
+	{
+		projectileHover2 = false;
+		document.getElementById("projectilePoint2").style.display = "none";
+		NewLine("Dodged");
+		document.getElementById("enemyTwo").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[1] + '/Idle.png")';
+
+	}
+	if(enemyNumber == 3 && projectileList.indexOf(currentEnemies[2]) != -1 && enemyHealth[2] > 0)
+	{
+		projectileHover3 = false;
+		document.getElementById("projectilePoint3").style.display = "none";
+		NewLine("Dodged");
+		document.getElementById("enemyThree").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[2] + '/Idle.png")';
+	}
+	if(enemyNumber == 4 && projectileList.indexOf(currentEnemies[3]) != -1 && enemyHealth[3] > 0)
+	{
+		projectileHover4 = false; 
+		document.getElementById("projectilePoint4").style.display = "none"; 
+		NewLine("Dodged");
+		document.getElementById("enemyFour").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[3] + '/Idle.png")';
+	}
+
+	setTimeout(setBackSteveSprite, 1000, "Dodge");
+	
+	$( ".steveImage" ).last().addClass("steveDodge");
+}
+	
+function changeHeart(heart, force)
+{
+	if(force == null || force == false)
+	{	
+		if(heart == null || heart == "normal")
+		{
+			heartFullUrl = "assets/images/hearts/normalFull.png"
+			heartHalfUrl = "assets/images/hearts/normalHalf.png"
+	 		heatEmptyUrl = "assets/images/hearts/normalEmpty.png"
+		}
+		else if(heart == "poison")
+		{
+			heartFullUrl = "assets/images/hearts/poisonFull.png"
+			heartHalfUrl = "assets/images/hearts/poisonHalf.png"
+	 		heatEmptyUrl = "assets/images/hearts/normalEmpty.png"
+		}
+		else if(heart == "wither" && effectDuration[0] <= 0)
+		{
+			heartFullUrl = "assets/images/hearts/witherFull.png"
+			heartHalfUrl = "assets/images/hearts/witherHalf.png"
+	 		heatEmptyUrl = "assets/images/hearts/normalEmpty.png"
+		}
+	}else
+	{
+		if(heart == null || heart == "normal")
+		{
+			heartFullUrl = "assets/images/hearts/normalFull.png"
+			heartHalfUrl = "assets/images/hearts/normalHalf.png"
+	 		heatEmptyUrl = "assets/images/hearts/normalEmpty.png"
+		}
+		if(heart == "poison")
+		{
+			heartFullUrl = "assets/images/hearts/poisonFull.png"
+			heartHalfUrl = "assets/images/hearts/poisonHalf.png"
+	 		heatEmptyUrl = "assets/images/hearts/normalEmpty.png"
+		}
+		if(heart == "wither")
+		{
+			heartFullUrl = "assets/images/hearts/witherFull.png"
+			heartHalfUrl = "assets/images/hearts/witherHalf.png"
+	 		heatEmptyUrl = "assets/images/hearts/normalEmpty.png"
+		}
+	}
+	
+	healthGainSystem();
+	healthDepleationSystem();
+}
+
+var pois; //warp Effect damage
+var withe;
+var fir;
+
+pois = setInterval(poisonTick, 1000); 
+withe = setInterval(witherTick, 2000); 
+fir = setInterval(fireTick, 500); 
+
+
+function poisonTick()
+{
+	if(effectDuration[0] > 0)
+	{
+		if(playerHealth > 1)
+		{
+			effectDuration[0] -= 1;
+			playerHealth -= 1;
+			healthDepleationSystem();
+			//changeHeart("poison")
+		}
+	}else
+	{
+		//changeHeart("normal")
+	}
+}
+
+function witherTick()
+{
+	if(playerHealth > 0)
+	{
+		if(effectDuration[1] > 0)
+		{
+			effectDuration[1] -= 2;
+			playerHealth -= 1;
+			healthDepleationSystem();
+			//changeHeart("wither")
+
+		}else
+		{
+			//changeHeart("normal")
+		}
+	}	
+}
+
+function fireTick()
+{
+	if(playerHealth > 0)
+	{
+		if(effectDuration[2] > 0)
+		{
+			effectDuration[2] -= 0.5;
+			playerHealth -= 1;
+			healthDepleationSystem();
+		}
+	}	
+}
+
+
+function setEnemyHealth()
+{
+	
+	let aliveHealth = removeArray(enemyHealth, 0);
+	let aliveIndex = removeIndex(enemyHealth, 0);
+	 
+   let aliveEnemies = aliveHealth.length;
+	 
+   let output = " ";
+		
+	if(aliveHealth[0] > 0)
+	{
+		output += currentEnemies[aliveIndex[0]] + ": " + aliveHealth[0];
+	}
+	if(aliveHealth[0] > 0 && aliveHealth[1] > 0)
+	{
+		output += ", "
+	}
+	if(aliveEnemies > 1 && aliveHealth[1] > 0)
+	{
+		output += currentEnemies[aliveIndex[1]] + ": " + aliveHealth[1];
+	}
+	if(aliveHealth[1] > 0 && aliveHealth[2] > 0)
+	{
+		output += ", "
+	}
+	if(aliveEnemies > 2 && aliveHealth[2] > 0)
+	{
+		output += currentEnemies[aliveIndex[2]] + ": " + aliveHealth[2];
+	}
+	if(aliveHealth[2] > 0 && aliveHealth[3] > 0)
+	{
+		output += ", ";
+	}
+	if(aliveEnemies > 3 && aliveHealth[3] > 0)
+	{
+		output += currentEnemies[aliveIndex[3]] + ": " + aliveHealth[3];
+	}
+	
+   if(output == " " || output == null)
+	{
+   	output = "Proceed";
+		//deadEnemy();
+	}
+   document.getElementById("enemyHealthsLbl").innerHTML = output;
+   setTimeout(setEnemyHealth, 100)
+}
+            
+//what are you doing in my code!?            
+            
+function healthDepleationSystem()
+{
+	if(effectDuration[0] > 0)
+	{
+		heartFullUrl = "assets/images/hearts/poisonFull.png";
+		heartHalfUrl = "assets/images/hearts/poisonHalf.png";
+		NewLine("poison");
+
+	}else	if(effectDuration[1] > 0)
+	{
+		heartFullUrl = "assets/images/hearts/witherFull.png";
+		heartHalfUrl = "assets/images/hearts/witherHalf.png";
+	}
+	else
+	{
+		heartFullUrl = "assets/images/hearts/normalFull.png";
+		heartHalfUrl = "assets/images/hearts/normalHalf.png";
+		heartEmptyUrl = "assets/images/hearts/normalEmpty.png";
+	}
+	
+	if(playerHealth <= 19){
+		document.getElementById("heart10").src = heartHalfUrl;
+	}
+	if(playerHealth <= 18){
+		document.getElementById("heart10").src = heatEmptyUrl
+	}
+    if(playerHealth <= 17){
+		document.getElementById("heart9").src = heartHalfUrl
+	}
+	if(playerHealth <= 16){
+		document.getElementById("heart9").src = heatEmptyUrl
+	}
+	if(playerHealth <= 15){
+		document.getElementById("heart8").src = heartHalfUrl
+	}
+	if(playerHealth <= 14){
+		document.getElementById("heart8").src = heatEmptyUrl
+	}
+    if(playerHealth <= 13){
+		document.getElementById("heart7").src = heartHalfUrl;
+	}
+	if(playerHealth <= 12){
+		document.getElementById("heart7").src = heatEmptyUrl
+	}
+    if(playerHealth <= 11){
+		document.getElementById("heart6").src = heartHalfUrl
+	}
+	if(playerHealth <= 10){
+		document.getElementById("heart6").src = heatEmptyUrl
+	}
+    if(playerHealth <= 9){
+		document.getElementById("heart5").src = heartHalfUrl
+	}
+	if(playerHealth <= 8){
+		document.getElementById("heart5").src = heatEmptyUrl
+	}
+    if(playerHealth <= 7){
+		document.getElementById("heart4").src = heartHalfUrl
+	}
+	if(playerHealth <= 6){
+		document.getElementById("heart4").src = heatEmptyUrl
+	}
+    if(playerHealth <= 5){
+		document.getElementById("heart3").src = heartHalfUrl
+	}
+	if(playerHealth <= 4){
+		document.getElementById("heart3").src = heatEmptyUrl
+	}
+    if(playerHealth <= 3){
+		document.getElementById("heart2").src = heartHalfUrl
+	}
+	if(playerHealth <= 2){
+		document.getElementById("heart2").src = heatEmptyUrl
+	}
+    if(playerHealth <= 1){
+		document.getElementById("heart1").src = heartHalfUrl
+	}
+	if(playerHealth <= 0){
+		document.getElementById("heart1").src = heatEmptyUrl
+	}
+    
+    var totemIndex = items.indexOf("Totem");
+    
+    if(playerHealth <= 0) //warp Player Death
+    {
+        if(items.includes("Totem") == false || itemsAmounts[totemIndex] <= 0)
+        {
+            $( ".steveImage" ).last().addClass("steveDead");
+        		setEnemySprites(true);
+            document.getElementById("deathLabel").style.display = "block";
+            document.getElementById("levelLabel").style.display = "block";
+				document.getElementById("deathTint").style.display = "block";
+            document.getElementById("levelLabel").innerHTML = "You've reached Area " + currentArea + ", Level " + currentLevel;
+			   document.getElementById("ProceedButton").style.display = "none";
+            document.body.style.backgroundColor = "#f2e9e9";
+        }
+        else
+        {
+            playerHealth = 1;
+            healthGainSystem();
+            NewLine("Used Totem of undying");
+				$( ".steveImage" ).last().addClass("steveTotem");
+				document.getElementById("totemUse").style.display = "block";
+            setTimeout(setBackTotem, 2000);
+            setTimeout(setBackSteveSprite, 2100, "Totem");
+            itemsAmounts[totemIndex] -= 1; 
+				if(itemsAmounts[totemIndex] == 0)
+				{
+					document.getElementById("totemUndying").style.display = "none";
+				}
+            sfx.totem.play();
+        }
+    }    
+
+}
+
+function setBackTotem()
+{
+	document.getElementById("totemUse").style.display = "none";
+}
+    
+function healthGainSystem() //Format: Half Number 2 = Full Above number - 1. Half Number 1 =  Half Number 2 - 1. Full Number: Half Number 1
+{
+	if(effectDuration[0] > 0)
+	{
+		heartFullUrl = "assets/images/hearts/poisonFull.png";
+		heartHalfUrl = "assets/images/hearts/poisonHalf.png";
+
+	}else	if(effectDuration[1] > 0)
+	{
+		heartFullUrl = "assets/images/hearts/witherFull.png";
+		heartHalfUrl = "assets/images/hearts/witherHalf.png";
+	}
+	else
+	{
+		heartFullUrl = "assets/images/hearts/normalFull.png";
+		heartHalfUrl = "assets/images/hearts/normalHalf.png";
+		heartEmptyUrl = "assets/images/hearts/normalEmpty.png";
+	}
+	
+	if(playerHealth >= 1){
+		document.getElementById("heart1").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 2){
+		document.getElementById("heart1").src = heartFullUrl;
+	}
+	
+	if(playerHealth >= 3){
+		document.getElementById("heart2").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 4){
+		document.getElementById("heart2").src = heartFullUrl;
+	}
+	
+	if(playerHealth >= 5){
+		document.getElementById("heart3").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 6){
+		document.getElementById("heart3").src = heartFullUrl;
+	}
+	
+	if(playerHealth >= 7){
+		document.getElementById("heart4").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 8){
+		document.getElementById("heart4").src = heartFullUrl;
+	}
+	
+	if(playerHealth >= 9){
+		document.getElementById("heart5").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 10){
+		document.getElementById("heart5").src = heartFullUrl;
+	}
+	
+	if(playerHealth >= 11){
+		document.getElementById("heart6").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 12){
+		document.getElementById("heart6").src = heartFullUrl;
+	}
+	
+	if(playerHealth >= 13){
+		document.getElementById("heart7").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 14){
+		document.getElementById("heart7").src = heartFullUrl;
+	}
+		
+	if(playerHealth >= 15){
+		document.getElementById("heart8").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 16){
+		document.getElementById("heart8").src = heartFullUrl;
+	}
+		
+	if(playerHealth >= 17){
+		document.getElementById("heart9").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 18){
+		document.getElementById("heart9").src = heartFullUrl;
+	}
+			
+	if(playerHealth >= 19){
+		document.getElementById("heart10").src = heartHalfUrl;
+	}
+	
+	if(playerHealth >= 20){
+		document.getElementById("heart10").src = heartFullUrl;
+	}
+}    	
+            
+    
+//warp tutorial
+	
+function tutorialStart()
+{
+	document.getElementById("tutorialBox").style.opacity = "1";
+	document.getElementById("tutorialTint").style.opacity = "0.8";
+}
+	
+function tutorialNext()
+{
+	currentTutorial += 1
+	if(tutorialHeader[currentTutorial] != null && tutorialParagraph[currentTutorial] != null && tutorialPosition[currentTutorial] != null)
+	{
+		document.getElementById("tutorialSection").innerHTML = tutorialHeader[currentTutorial]
+		document.getElementById("tutorialParagraph").innerHTML = tutorialParagraph[currentTutorial];
+		
+		if(currentTutorial == tutorialBackOut)
+		{
+			document.getElementById("tutorialBackOut").style.display = "block";
+		}
+		else
+		{
+			document.getElementById("tutorialBackOut").style.display = "none";
+		}
+
+		setTutorialPostion();
+	}else
+	{
+		tutorialEnd();
+	}
+	
+}
+	
+function tutorialEnd()
+{
+	document.getElementById("tutorialBackOut").style.display = "none"
+	currentEndTutorial += 1
+	if(tutorialEndHeader[currentEndTutorial] != null && tutorialEndParagraph[currentEndTutorial] != null && tutorialEndPosition[currentEndTutorial] != null)
+	{
+	
+		document.getElementById("tutorialSection").innerHTML = tutorialEndHeader[currentEndTutorial]
+		document.getElementById("tutorialParagraph").innerHTML = tutorialEndParagraph[currentEndTutorial]
+		
+		if(tutorialEndHeader.length -1 == currentEndTutorial)
+		{
+			document.getElementById("tutorialNext").style.display = "none"
+			document.getElementById("tutorialEnd").style.display = "block"
+		}
+		
+		setTutorialEndPostion()	
+	}else
+	{
+		document.getElementById("tutorialNext").style.display = "none"
+		document.getElementById("tutorialEnd").style.display = "block"
+
+	}
+}	
+	
+function tutorialClose()
+{
+	
+	tutorialOpen = false;
+	$( ".tutorialBox" ).last().addClass("tutorialBoxClose");
+	$( ".tutorialTint" ).last().addClass("tutorialTintClosing");
+	setTimeout(function(){		document.getElementById("tutorialBox").style.display = "none";
+	document.getElementById("tutorialTint").style.display = "none";}, 2990)
+	//localStorage.setItem('MCPtutorial', true);
+		//waiting off until i know i like how it works and feels
+
+}
+	
+function setTutorialPostion()
+{
+	let theArray
+	let x
+	let y
+	theArray = tutorialPosition[currentTutorial].split(",")
+	
+	x = parseInt(theArray[0])
+	y = parseInt(theArray[1])
+		
+	document.getElementById("tutorialBox").style.transform = "translate(-" + x +"%, -" + y +"%)";
+	document.getElementById("tutorialBox").style.left = x + "%"
+	document.getElementById("tutorialBox").style.top = y + "%"}
+	
+function setTutorialEndPostion()
+{
+	let theArray
+	let x
+	let y
+	theArray = tutorialEndPosition[currentEndTutorial].split(",")
+	
+	x = parseInt(theArray[0])
+	y = parseInt(theArray[1])
+		
+	
+	document.getElementById("tutorialBox").style.transform = "translate(-" + x +"%, -" + y +"%)";
+	document.getElementById("tutorialBox").style.left = x + "%"
+	document.getElementById("tutorialBox").style.top = y + "%"
+}
+	
+//warp item	
+function UseItem(itemName)
+{	
+	if(playerHealth > 0)
+	{
+		if(itemName == "Milk")
+		{
+			if(itemsAmounts[items.indexOf("Milk")] > 0)
+			{	
+	   		setAll(effectDuration,0);
+				itemsAmounts[items.indexOf("Milk")]--;	
+				healthGainSystem();
+			}
+		}
+		if(itemName == "Almighty Jar")
+		{
+			itemAttack("all", rndInteger(300,500), "almighty")		
+			itemsAmounts[items.indexOf(itemName)]--;	
+			//setEnemyHealth();
+		}
+		if(inventoryOpen)
+		buildItem();
+	}else
+	{
+		window.confirm("Dead people can't use stuff idot")
+	}
+}
+	
+	
+function itemAttack(target, damage, type)
+{
+	
+	if(target == "all")
+	{
+		for(var i = 0; i < enemyHealth.length-1; i++)
+		{
+			enemyHealth[i] -= damage;
+		}
+		
+		for(var i = 0; i < enemyHealth.length-1; i++)
+		{
+			if(enemyHealth[i] <= 0)
+			{
+				deadEnemy(i);
+			}
+		}
+	}else
+	{
+		enemyHealth[target] -= damage;
+		
+		if(enemyHealth[target] <= 0)
+		{
+			deadEnemy(target);
+		}
+	}
+	
+	NewLine("Dealt " + damage + " " + type + " damage!")
+	setEnemyHealth();
+}	
+	
+	
+//warp inventory
+function openInventory()
+{
+	if(!tutorialOpen)
+	{
+	if(inventoryOpen)
+	{
+		document.getElementById("inventoryMain").style.display = "none";
+	 	inventoryOpen = false;	
+		closeInventory();
+	}
+	else
+	{
+		document.getElementById("inventoryMain").style.display = "block";
+		inventoryOpen = true;
+		buildFood();
+		buildCrafting();
+		buildItem();
+		buildEquipment();
+	}
+	}
+}	
+	
+function closeInventory()
+{
+	document.getElementById("inventoryMain").style.display = "none";
+	inventoryOpen = false;
+	equipStuff();
+}		
+	
+function buildFood()
+{
+	document.getElementById("foodContainer").innerHTML = "";
+	document.getElementById("selectedFood").innerHTML = "Selected Food: " + foodList[activeFood];
+	foodList.forEach(function(item)
+	{
+		var id = foodList.indexOf(item);
+		if(foodLeft[id] != 0)
+		document.getElementById("foodContainer").innerHTML += '<button id="appleBtn" onClick="switchFood('+id+')" class="foodButton farLeftFood HoverMC MinecraftFont">'+ item +': '+foodLeft[id]+'</button>';	
+	}); 
+}	
+	
+function buildItem()
+{
+	document.getElementById("storageList").innerHTML = "";
+	
+
+	
+	items.forEach(function(item)
+	{
+		var id = items.indexOf(item);
+		
+		if(itemsAmounts[id] > 0)
+		{
+			if(itemUsable[id])
+				document.getElementById("storageList").innerHTML += '<div style=" position:absolute; background-color: gray; height: 11%; width:93.2%; border: 2px solid black; margin: 3%;"> <div style="position:relative; background: url(assets/images/inventory/items/' + itemType[id] +'.png); background-size: 100%100%; background-repeat: no-repeat; width: 10%; height: 70%; left:2%;top: 50%;transform: translate(-2%, -50%);" ></div> <div class="MinecraftFont" style="position:absolute; left:50%;top: 7%;transform: translate(-50%, -7%);">' + items[id] +  ' x' + itemsAmounts[id] + '</div> <div style="position:absolute; width: 70%; height:60%; overflow:hidden; left:45%; top: 70%; transform: translate(-45%, -70%);" class="MinecraftFont">' + itemsDescription[id] +'</div> <div class="HoverMC MinecraftButton"  style="position:absolute; left: 96%; top:60%; transform: translate(-96%, -60%); color:white; height: 50%; width:10%; text-align:center;" onClick="UseItem(' + "'" + items[id] + "'" + ')">Use</div> </div> <br> <br> <br>';
+			else
+				document.getElementById("storageList").innerHTML += '<div style=" position:absolute; background-color: gray; height: 11%; width:93.2%; border: 2px solid black; margin: 3%;"> <div style="position:relative; background: url(assets/images/inventory/items/' + itemType[id] +'.png); background-size: 100%100%; background-repeat: no-repeat; width: 10%; height: 70%; left:2%;top: 50%;transform: translate(-2%, -50%);" ></div> <div class="MinecraftFont" style="position:absolute; left:50%;top: 7%;transform: translate(-50%, -7%);">' + items[id] +  ' x' + itemsAmounts[id] + '</div> <div style="position:absolute; width: 70%; height:60%; overflow:hidden; left:45%; top: 70%; transform: translate(-45%, -70%);" class="MinecraftFont">' + itemsDescription[id] +'</div> <div class="MinecraftButtonDisabled"  style="position:absolute; left: 96%; top:60%; transform: translate(-96%, -60%); color:gray; height: 50%; width:10%; text-align:center;">Use</div> </div> <br> <br> <br>';
+		}
+
+	});
+	
+	for(var i = 0; i < weaponList.length; i++)
+	{
+		if(weaponObtained[i] == true)
+		{
+			
+		document.getElementById("storageList").innerHTML += '<div style=" position:absolute; background-color: gray; height: 11%; width:93.2%; border: 2px solid black; margin: 3%;"> <div style="position:relative; background: url(assets/images/inventory/items/' + weaponTypeList[i] +'.png); background-size: 100%100%; background-repeat: no-repeat; width: 10%; height: 70%; left:2%;top: 50%;transform: translate(-2%, -50%);" ></div> <div class="MinecraftFont" style="position:absolute; left:50%;top: 7%;transform: translate(-50%, -7%);">' + weaponList[i] + ' x' + 1 + '</div> <div class="MinecraftButtonDisabled"  style="position:absolute; left: 96%; top:60%; transform: translate(-96%, -60%); color:gray; height: 50%; width:10%; text-align:center;">Use</div> </div> <br> <br> <br>';		}
+	}
+	
+	/*weaponList.forEach(function(item)
+	{
+		var id = weaponList.indexOf(item);
+		if(weaponObtained[id]);
+			//document.getElementById("storageList").innerHTML += "hii ma!"; /*'<div style=" position:absolute; background-color: gray; height: 11%; width:93.2%; border: 2px solid black; margin: 3%;"> <div style="position:relative; background: url(assets/images/inventory/items/' + /*weaponTypeList[id]8/ +'.png); background-size: 100%100%; background-repeat: no-repeat; width: 10%; height: 70%; left:2%;top: 50%;transform: translate(-2%, -50%);" ></div> <div class="MinecraftFont" style="position:absolute; left:50%;top: 7%;transform: translate(-50%, -7%);">' + /*weaponList[id] + 8/ ' x' + 1 + '</div> <div class="MinecraftButtonDisabled"  style="position:absolute; left: 96%; top:60%; transform: translate(-96%, -60%); color:gray; height: 50%; width:10%; text-align:center;">Use</div> </div> <br> <br> <br>';
+		}
+	});*/
+}
+	
+function buildCrafting()
+{
+	document.getElementById("itemOne").innerHTML = "<option style='color:black;'>Item One</option>";
+	document.getElementById("itemTwo").innerHTML = "<option style='color:black;'>Item Two</option>";
+
+	
+	for(var i = 0; i < items.length-1; i++)
+	{
+		if(itemsAmounts[i] > 0 && itemType[i] == "crafting")
+		{
+			document.getElementById("itemOne").innerHTML += "<option style='color:black;'>" + items[i] + " " + itemsAmounts[i] + "x</option>";
+		 	document.getElementById("itemTwo").innerHTML += "<option style='color:black;'>" + items[i] + " " + itemsAmounts[i] + "x</option>";
+
+		}
+	}
+}
+	
+var helmetAr = [];	
+var chestplateAr = [];	
+var leggingsAr = [];	
+var bootsAr = [];	
+
+	
+function buildEquipment()
+{
+	document.getElementById("meleeSelect").innerHTML = "";
+	
+	helmetAr = [];	
+ 	chestplateAr = [];	
+ 	leggingsAr = [];	
+	 bootsAr = [];	
+	
+	
+	document.getElementById("helmetSelect").innerHTML = "";
+	document.getElementById("chestplateSelect").innerHTML = "";
+	document.getElementById("leggingsSelect").innerHTML = "";
+	document.getElementById("bootsSelect").innerHTML = "";
+	
+	for(var i = 0; i < weaponList.length; i++)
+	{
+		if(weaponObtained[i] == true)
+		{
+			document.getElementById("meleeSelect").innerHTML += "<option style='color:black;'>" + weaponList[i] + "</option>";
+		}
+	}
+	
+	let helmetId = -4;
+	
+	while(helmetId < armorList.length - 4)
+	{
+		helmetId += 4;
+		if(hasArmor[helmetId] == true)
+		{
+			document.getElementById("helmetSelect").innerHTML += "<option style='color:black;'>" + armorList[helmetId] + "</option>";
+			helmetAr.push(armorList[helmetId]);
+
+		}
+	}
+	
+	let chestplateId = -3;
+	
+	while(chestplateId < armorList.length - 4)
+	{
+		chestplateId += 4;
+		if(hasArmor[chestplateId] == true)
+		{
+			document.getElementById("chestplateSelect").innerHTML += "<option style='color:black;'>" + armorList[chestplateId] + "</option>";
+			chestplateAr.push(armorList[chestplateId]);
+		}
+	}
+	
+	let leggingsId = -2;
+	
+	while(leggingsId < armorList.length - 4)
+	{
+		leggingsId += 4;
+		if(hasArmor[leggingsId] == true)
+		{
+			document.getElementById("leggingsSelect").innerHTML += "<option style='color:black;'>" + armorList[leggingsId] + "</option>";
+			leggingsAr.push(armorList[leggingsId]);
+		}
+	}
+	
+	let bootsId = -1;
+	
+	while(bootsId < armorList.length - 4)
+	{
+		bootsId += 4;
+		if(hasArmor[bootsId] == true)
+		{
+			document.getElementById("bootsSelect").innerHTML += "<option style='color:black;'>" + armorList[bootsId] + "</option>";
+			bootsAr.push(armorList[bootsId]);
+		}
+	}
+	
+	/*for(var i = 0; i < armorList.length; i++)
+	{
+		if(weaponObtained[i] == true)
+		{
+			document.getElementById("helmetSelect").innerHTML += "<option style='color:black;'>" + armorList[helmetId] + "</option>";
+		}
+	}*/
+		
+	document.getElementById("meleeSelect").selectedIndex = weaponList.indexOf(weaponEquipped);
+	
+	document.getElementById("helmetSelect").selectedIndex = helmetAr.indexOf(armorEquipped[0]);
+	document.getElementById("chestplateSelect").selectedIndex = chestplateAr.indexOf(armorEquipped[1]);
+	document.getElementById("leggingsSelect").selectedIndex = leggingsAr.indexOf(armorEquipped[2]);
+	document.getElementById("bootsSelect").selectedIndex = bootsAr.indexOf(armorEquipped[3]);
+}
+
+function equipStuff()
+{
+	weaponEquipped =	document.getElementById("meleeSelect").value;
+	armorEquipped[0] = document.getElementById("helmetSelect").value;
+	attackType = weaponTypeList[weaponList.indexOf(document.getElementById("meleeSelect").value)];
+	AttackDamage = weaponPower[weaponList.indexOf(document.getElementById("meleeSelect").value)];
+	
+	
+	armorEquipped[0] = document.getElementById("helmetSelect").value;
+	armorEquipped[1] = document.getElementById("chestplateSelect").value;
+	armorEquipped[2] = document.getElementById("leggingsSelect").value;
+	armorEquipped[3] = document.getElementById("bootsSelect").value;
+
+}	
+	
+function craftItem()
+{
+	let firstItem = document.getElementById("itemOne").value.split(" ")[0];
+	let secondItem = document.getElementById("itemTwo").value.split(" ")[0];
+	
+	let combined  = document.getElementById("itemOne").value.split(" ")[0] + ":" + document.getElementById("itemTwo").value.split(" ")[0];
+	let combinedR  = document.getElementById("itemTwo").value.split(" ")[0] + ":" + document.getElementById("itemOne").value.split(" ")[0];
+		
+	if(firstItem == "Item One" && secondItem == "Item Two")
+	{
+		window.confirm("You have to choose items");
+		return null;
+	}else if(firstItem == "Item One")
+	{
+		window.confirm("You must choose the first item.");
+		return null;
+	}else if(secondItem == "Item Two")
+	{
+		window.confirm("You must chose the second item.")
+		return null;
+	}
+	
+	//window.confirm(combined);
+	
+	if(itemsAmounts[items.indexOf(firstItem)] == 1 && itemsAmounts[items.indexOf(secondItem)] == 1)
+	{
+		if(firstItem == secondItem)
+		{
+			window.confirm("Not enough materials.");
+			return null;
+		}
+	}
+	
+	if(weaponRecipe.indexOf(combined) != -1)
+	{
+		if(weaponObtained[weaponRecipe.indexOf(combined)] != true)
+		{
+			window.confirm("Fused: " + weaponList[weaponRecipe.indexOf(combined)]);
+			weaponObtained[weaponRecipe.indexOf(combined)] = true;
+		}
+		else
+		{
+			window.confirm("You already have the " + weaponList[weaponRecipe.indexOf(combined)]);
+			return null;
+		}
+	}else if(weaponRecipe.indexOf(combinedR) != -1)
+	{
+		if(weaponObtained[weaponRecipe.indexOf(combinedR)] != true)
+		{
+			window.confirm("Fused: " + weaponList[weaponRecipe.indexOf(combinedR)]);
+			weaponObtained[weaponRecipe.indexOf(combinedR)] = true;
+		}
+		else
+		{
+			window.confirm("You already have the " + weaponList[weaponRecipe.indexOf(combinedR)]);
+			return null;
+		}
+		
+	}
+	else if(itemRecipe.indexOf(combined) != -1)
+	{
+		window.confirm("Fused: " + items[itemRecipe.indexOf(combined)]);
+		itemsAmounts[itemRecipe.indexOf(combined)]++;
+
+	}else if(itemRecipe.indexOf(combinedR) != -1)
+	{
+		window.confirm("Fused: " + items[itemRecipe.indexOf(combinedR)]);
+		itemsAmounts[itemRecipe.indexOf(combinedR)]++;
+
+	}else if(armorRecipe.indexOf(combined) != -1)
+	{
+		if(hasArmor[armorRecipe.indexOf(combined)] != true)
+		{
+			window.confirm("Fused: " + armorList[armorRecipe.indexOf(combined)]);
+			hasArmor[armorRecipe.indexOf(combined)] = true;
+		}
+		else
+		{
+			window.confirm("You already have the " + armorList[armorRecipe.indexOf(combined)]);
+			return null;
+		}
+	//	window.confirm("Fused: " + items[armorRecipe.indexOf(combined)]);
+		//hasArmor[armorRecipe.indexOf(combined)] = true;
+
+	}else if(armorRecipe.indexOf(combinedR) != -1)
+	{
+		if(hasArmor[armorRecipe.indexOf(combinedR)] != true)
+		{
+			window.confirm("Fused: " + armorList[armorRecipe.indexOf(combinedR)]);
+			hasArmor[armorRecipe.indexOf(combinedR)] = true;
+		}
+		else
+		{
+			window.confirm("You already have the " + armorList[armorRecipe.indexOf(combinedR)]);
+			return null;
+		}
+		//window.confirm("Fused: " + items[itemRecipe.indexOf(combinedR)]);
+		//hasArmor[armorRecipe.indexOf(combinedR)] = true;
+	}else
+	{
+		window.confirm("Couldn't fuse items.");
+		return null;
+	}
+	
+	itemsAmounts[items.indexOf(firstItem)]--;
+	itemsAmounts[items.indexOf(secondItem)]--; 
+	
+	
+	buildCrafting();
+}	
+	
+
+
+function switchInventory(target)
+{
+	//window.confirm("bdsds");	
+	document.getElementById("storage").style.display = "none";
+	document.getElementById("food").style.display = "none";
+	document.getElementById("craft").style.display = "none";
+	document.getElementById("equip").style.display = "none";
+	document.getElementById(target).style.display = "block";
+	
+	buildCrafting();
+	buildEquipment();
+	buildItem();
+	buildFood();
+}	
+	
+function switchFood(foodID)
+{
+	activeFood = foodID;
+	document.getElementById("selectedFood").innerHTML = "Selected Food: " + foodList[activeFood];
+}
+	
+function printCurrentFood(){	NewLine("Switched to " + foodList[activeFood])}
+    
+//Just saw a french person. Day ruined...            
+window.addEventListener("keydown", event => { //warp key down warp keydown warp down key
+ if(tutorialOpen == false){
+	 {if (event.key === "ArrowLeft") {
+		let i = activeFood;
+		let the = false;
+		let foundFood = false;
+		while(!foundFood)
+		{
+			i--;
+			//NewLine(i);
+			
+			if(i <= -1)
+			{
+				i = foodList.length - 1;
+			}
+						
+			if(foodLeft[i] > 0)
+			{
+				foundFood = true;
+				activeFood = i;
+				printCurrentFood();
+				//return;
+			}
+			else if(i == activeFood)
+			{
+				NewLine("failure");
+				if(activeFood > 0)
+       		{
+         		activeFood -= 0;
+           		printCurrentFood();
+           
+       		}else
+		 		{
+		    		activeFood = foodList.length - 1;
+           		printCurrentFood();
+		 		}
+				foundFood = true;
+			}
+			//the = true;
+		}
+		
+		/*for(let i = activeFood; foodLeft[i] < 0; i--)
+		{	
+      	if(i > 0)
+       	{
+         	activeFood -= 1;
+           	printCurrentFood();
+           
+       	}else
+		 	{
+		    	i = foodList.length - 1;
+           	printCurrentFood();
+		 	}
+		}*/
+  }}
+	 { 
+  if (event.key === "ArrowRight")
+  { 
+	  	let l = activeFood;
+		let the = false;
+		let foundFood = false;
+		while(!foundFood)
+		{ 
+			l++;
+			if(l > foodList.length - 1)
+			{
+				l = 0;
+			}
+			
+			if(foodLeft[l] > 0)
+			{
+				foundFood = true;
+				activeFood = l;
+				printCurrentFood();
+				//return;
+			}
+			else if(l == activeFood)
+			{
+	     		if(l > 0)
+       		{
+         		activeFood -= 1;
+           		printCurrentFood();
+           
+       		}else
+		 		{
+		    		l = foodList.length - 1;
+           		printCurrentFood();
+		 		}
+			}
+		}
+	  
+      /*if(activeFood  < foodLeft.length - 1)
+      {
+          activeFood += 1;
+          printCurrentFood();
+      }else{
+			activeFood = 0;
+         printCurrentFood();
+		}*/
+  }
+	 }
+    
+  if (event.key === "a") {
+        NewLine(currentEnemies[currentEnemy] + " attack: " + enemyAttack[currentEnemy]);
+  }
+    
+  if (event.key === "f") {
+        NewLine("You have " + foodLeft[activeFood] + " " + foodList[activeFood] + " left");
+  }
+  if (event.key === "s") {
+        if(currentEnemies[currentEnemy] != null)
+            NewLine("You are attacking " + currentEnemies[currentEnemy] + " ID:" + currentEnemy);
+        else
+        NewLine("You are attacking stuff, i think, idk");
+  }
+  if(event.key === "Shift") {
+  
+  		if(projectileHover1 == false && projectileHover2 == false && projectileHover3 == false && projectileHover4 == false)
+		{
+			NewLine("Stumbled over yourself")
+			playerHealth -= rndInteger(0, 6)
+			healthDepleationSystem();
+		}		
+
+		if(projectileHover1)
+		{
+			projectileHover(1);
+		}
+		if(projectileHover2)
+		{
+			projectileHover(2);
+		}
+		if(projectileHover3)
+		{
+			projectileHover(3);
+		}
+		if(projectileHover4)
+		{
+			projectileHover(4);
+		}
+  }
+  if (event.key === "t") {
+        if(itemsAmounts[items.indexOf("Totem")] >= 1)
+            NewLine("You have " + itemsAmounts[items.indexOf("Totem")] + " totems(s) left");
+        else
+        	NewLine("You have no totems left");
+  }
+  if (event.key === "r") {
+        if(playerHealth <= 0)
+        {    
+				location.reload();  
+
+        }
+  } 
+  if(event.key === "i") {
+  		openInventory();  
+  } 
+  if(event.key === "m")
+  {
+        if(itemsAmounts[2] > 0)
+		  {
+		      setAll(effectDuration,0)
+		  }
+  }
+	 
+  if(event.key === "1")
+  {
+		if(enemyHealth[0] > 0)
+		{
+			swapEnemy(1)
+		}
+  }
+	 
+  if(event.key === "2")
+  {
+		if(enemyHealth[1] > 0)
+		{
+			swapEnemy(2)
+		}
+  }
+  if(event.key === "3")
+  {
+		if(enemyHealth[2] > 0)
+		{
+			swapEnemy(3)
+		}
+  } 
+  if(event.key === "4")
+  {
+		if(enemyHealth[3] > 0)
+		{
+			swapEnemy(4)
+		}
+  } 
+ }  
+});
+
+	
+function openTutorial()
+{
+	document.GetElementById("TutorialMain")
+}	
+	
+function heal() //warp Food warp Heal
+{
+	if(tutorialOpen == false){
+    if(playerHealth > 0 && playerHealth < 20)
+    {
+	 	if(foodLeft[activeFood] > 0)
+		{
+			playerHealth += foodEfficiency[activeFood];  
+			foodLeft[activeFood] -= 1;
+			$( ".steveImage" ).last().addClass("steveHeal");
+			setTimeout(setBackSteveSprite, 1000, "Heal");
+			healthGainSystem()
+			NewLine("Consumed A " + foodList[activeFood] + "(s)");
+
+		}
+		else
+		{
+			NewLine("You don't have anymore " + foodList[activeFood] + "(s)");
+		}
+    }
+	 else if(playerHealth >= 20)
+    {
+        NewLine("You can't eat anymore");
+    }else
+    {
+        window.confirm("Dead people can't eat");
+    }
+	}
+}
+	
+//Managing items is a pain. this makes it a little more simple
+function addItem(itemName, amount){	itemsAmounts[items.indexOf(itemName)] += amount}	
+	
+function removeItem(itemName, amount){	itemsAmounts[items.indexOf(itemName)] -= amount}	
+	
+function getItemAmount(itemName){ return itemsAmounts[items.indexOf(itemName)];} 
+
+function getItemIndex(itemName){	return items.indexOf(itemName);}
+     
+
+function removeArray(arrayToCut, cutValue)
+{
+	let cuttedArray = []
+   arrayToCut.forEach(function(item){ if(item != cutValue) cuttedArray.push(item)}); 
+	return cuttedArray;
+}	
+	
+function removeIndex(arrayToCut, cutValue)//Gives back the indexs of everything but what the second value is
+{
+	let cuttedIndex = [];
+	arrayToCut.forEach(function(item){ if(item != cutValue){cuttedIndex.push(arrayToCut.indexOf(item))}});
+	return cuttedIndex;
+}	
+		
+	
+var rege;  
+
+	
+rege = setInterval(regen, 10000);        
+ 
+function regen()
+{
+    if(playerHealth > 0 && playerHealth < 20)
+    {
+        playerHealth += 1;
+        NewLine("Regenerated life");
+        healthGainSystem();
+    }
+}
+    
+function Proceed() //warp Proceed
+{
+    setTimeout(randomLife, 10);
+	
+    currentArea += 1;
+    if(currentArea > 5 && currentLevel != 4)
+    {
+       currentArea = 1;
+       currentLevel += 1;
+
+       NewLine("Progressed To Level " + currentLevel + "!");
+       document.getElementById("bgImage").style.backgroundImage = "url('assets/images/backdrops/" + currentLevel + "/UI.png')";
+		 document.getElementById("GamePortion").style.backgroundImage = "url('assets/images/backdrops/"+ currentLevel +"/gameplay.png')";
+
+		  
+   } 
+	
+	combinedSpot = currentLevel + ":" + currentArea;
+       
+	document.getElementById("chest").style.display = "None";
+	
+   killedEnemies = 0;
+   currentEnemy = 0;
+
+   if(rndInteger(1,3) > 1)
+   {
+   	var loonboon = rndInteger(0,foodList.length - 1);
+      var PvZ = rndInteger(1,2);
+        
+      foodLeft[loonboon] += PvZ * currentLevel;
+      NewLine("+" + PvZ + " " + foodList[loonboon]);
+        
+    }
+	    
+    document.getElementById("ProceedButton").style.display = "none";
+    document.getElementById("mouthWash").innerHTML = "Area:" + currentArea + " Level:" + currentLevel; 
+} 
+            
+function setAll(a, v) { var i, n = a.length; for (i = 0; i < n; ++i) { a[i] = v; } }
+function mobId(spot) {if(mobList.indexOf(currentEnemies[spot]) != -1){ return mobList.indexOf(currentEnemies[spot])} else { return null; }}
+  
+  
+var consoleItems;                
+function NewLine(newLineText) //warp action console warp logs warp console
+{
+    consoleItems += 1;
+    document.getElementById("ActionConsole").innerHTML += "<li>" + newLineText + "</li>";
+}
+	
+function getPlayerDamage(attacker, damage)
+{
+	let attackMan;
+	let damageMan
+	
+	if(attacker == null)
+		attackMan = currentEnemy
+	else
+		attackMan = attacker;
+		
+	if(damage == null)
+		damageMan = enemyAttack[attackMan];
+	else
+		damageMan = damage;
+	
+	let negatedEnemyAttack = 0;
+	
+	negatedEnemyAttack = damageMan - percentOf(0.8 * getArmorPoints() , damageMan)
+
+	return negatedEnemyAttack;
+}	
+	
+function getEnemyDamage(target, type)
+{
+	let weakness = mobWeakness[target].split(',');
+	let resist = mobResist[target].split(',');
+	let Null = mobNull[target].split(',');
+	let drain = mobDrain[target].split(',');
+	let repel = mobRepel[target].split(',');
+	
+	if(weakness.indexOf(type) != -1)
+	{
+		return Math.ceil(AttackDamage + (AttackDamage * 0.2));
+		NewLine("Weak!");
+	}else if(resist.indexOf(type) != -1)
+	{
+		return Math.ceil(AttackDamage * 0.3);			
+		NewLine("Resist...");
+	}else if(Null.indexOf(type) != -1)
+	{
+		return 0;
+		NewLine("Null");
+	}else if(drain.indexOf(type) != -1)
+	{
+		return (AttackDamage * 0.8) * -1;
+		NewLine("Attack directed into enemy.");
+		//return 0;
+	}else if(repel.indexOf(type) != -1)
+	{
+		playerHealth -= getPlayerDamage(target, AttackDamage / 2);
+		NewLine("Attack reflected...");
+		return 0;			
+	}else
+	{
+		return AttackDamage;	
+	}
+	
+	NewLine("It broke. Cry about it.");
+	return AttackDamage;
+	
+	if(enemyHealth <= 0)
+		deadEnemy(target);
+}	
+	
+
+   
+//math 'n stuff	
+function rndInteger(min, max) { return Math.floor(Math.random() * (max - min + 1) ) + min; }
+function percentBool(chance) { if(Math.floor(Math.random() * (100 - 0 + 1)  + 0 ) < chance) {return true} else {return false} }	
+function percentOf(percent, number) {return number*percent / 100;}
+	     
+function getArmorPoints()
+{
+	let armorCycle = 0;
+	let totalPoints = 0;
+	
+	while(armorEquipped.length > armorCycle)
+	{
+		armorCycle++;
+		if(armorList.indexOf(armorEquipped[armorCycle]) > -1 )
+		{
+			totalPoints += armorValue[armorList.indexOf(armorEquipped[armorCycle])];
+		}
+	}
+	
+	return totalPoints;
+}
+	
+	
+function swapEnemy(selectedEnemy) //When you click on a enemy to swap to it or press a number.
+{
+	 //cords for the arrow
+	 let x = ["","","",""]
+	 let y = ["","","",""]
+    currentEnemy =  selectedEnemy - 1; //so it fits into arrays
+	 
+}            
+                    
+function setBackSteveSprite(steveClass)
+{
+	if(steveClass == null)
+	{
+		$( ".steveImage" ).last().removeClass("steveAttack");
+   	$( ".steveImage" ).last().removeClass("steveHeal");
+   	$( ".steveImage").last().removeClass("steveArrowDmg");
+		$( ".steveImage" ).last().removeClass("steveTotem");
+		$( ".steveImage" ).last().removeClass("steveDodge");
+	}else
+	{
+	   $( ".steveImage").last().removeClass("steve" + steveClass);
+	}
+
+}
+    
+function deadEnemy(selectedEnemy) //warp deadEnemy warp dead Enemy
+{    
+    var swapVar = currentEnemy;
+	
+	 if(selectedEnemy == 0){
+		document.getElementById("projectilePoint1").style.display = "none";	 	
+	 	document.getElementById("enemyOne").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[0] + '/Dead.png")';
+	 }
+	 if(selectedEnemy == 1){
+		document.getElementById("projectilePoint2").style.display = "none";	 	
+	 	document.getElementById("enemyTwo").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[1] + '/Dead.png")';
+	 }
+	 if(selectedEnemy == 2){
+		document.getElementById("projectilePoint3").style.display = "none";	 	
+	 	document.getElementById("enemyThree").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[2] + '/Dead.png")';
+	 }
+	 if(selectedEnemy == 3){
+		document.getElementById("projectilePoint4").style.display = "none";	 	
+	 	document.getElementById("enemyFour").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[3] + '/Dead.png")';
+	 }
+	 
+    enemyHealth[selectedEnemy] = 0;   
+    setEnemyHealth();
+    
+	 if(currentEnemies[selectedEnemy] == "Evoker")
+	 {
+			if(!items.includes("Totem")){	items.Push("Totem"); itemsAmounts.Push(1)}
+			else itemsAmounts[items.indexOf("Totem")] += 1;
+			NewLine("Obtained A Totem");
+	 }
+	
+	let timesDid = 0;
+	
+    if(pressOneZ == 1)
+    {
+        pressOneZ += 1;    
+        NewLine(currentEnemies[selectedEnemy] + " Slain");
+    }
+    else if(pressOneZ == 2)
+    {
+
+        NewLine("Poke!")
+       pressOneZ = 2;        
+    }
+    
+    killedEnemies = 4;
+    
+    enemyHealth.forEach(function(item){ if(item <= 0) killedEnemies -= 1;}); 
+
+	
+	if(killedEnemies > 0)
+	{
+		do
+		{
+			timesDid++
+			//NewLine(timesDid)
+			if(swapVar != 3)
+    		{
+    			swapVar++;
+    		}else
+			{
+				swapVar = 0;
+			}
+			currentEnemy = swapVar;
+		}
+		while(enemyHealth[swapVar] < 1)	
+	} 
+    if(killedEnemies == 0)
+	 {
+    	document.getElementById("ProceedButton").style.display = "block";
+		if(chestActive)
+		{
+			document.getElementById("chest").style.display = "block";
+			r.style.setProperty('--chestUrl', "url('assets/images/chests/"+ chestSkins[chestLocation.indexOf(combinedSpot)] +"Closed.png')");
+		} 	
+	 }    
+}	
+	
+          
+function attack() //warp Attack
+{
+	
+	
+	if(tutorialOpen == false)
+	{
+
+   if(enemyHealth[currentEnemy] == null)
+   {
+       currentEnemy = 0;
+   }
+    
+	if(angerList.includes(currentEnemies[currentEnemy]) && enemyHealth[currentEnemy] > 0)
+	{
+		if(currentEnemy == 0)
+			document.getElementById("enemyOne").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[0] + '/Angered.png")';
+		if(currentEnemy == 1)
+	 		document.getElementById("enemyTwo").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[1] + '/Angered.png")';
+		if(currentEnemy == 2)
+	 		document.getElementById("enemyThree").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[2] + '/Angered.png")';
+		if(currentEnemy == 3)
+	 		document.getElementById("enemyFour").style.backgroundImage = 'url("assets/images/character sprites/' + currentEnemies[3] + '/Angered.png")';		
+	}
+	
+	if(enemyHealth[currentEnemy] > 0 && playerHealth > 0)
+   {
+       if(enemyHealth[currentEnemy] > getEnemyDamage(currentEnemy, attackType))
+       {
+       	   enemyHealth[currentEnemy] -= getEnemyDamage(currentEnemy, attackType);/*AttackDamage*/
+           	$( ".steveImage" ).last().addClass("steveAttack");
+            setTimeout(setBackSteveSprite, 750, "Attack");
+       		pressOneZ = 1;
+       }   
+       else
+		 {   
+			 	//window.confirm("d");
+            enemyHealth[currentEnemy] = 0; 
+       		deadEnemy(currentEnemy);
+       }
+	}
+		
+	if(playerHealth <= 0)
+	{
+		window.confirm("Dead people can't attack idiot");
+	}
+   if(percentBool(ailmentChance))
+	{    
+		if(poisonList.includes(currentEnemies[currentEnemy]) && enemyHealth[currentEnemy] > 0)
+		{
+			effectDuration[0] = 10;
+		}	  	  
+		if(witherList.includes(currentEnemies[currentEnemy]) && enemyHealth[currentEnemy] > 0)
+		{
+	 		effectDuration[1] = 10;
+		}
+		if(fireList.includes(currentEnemies[currentEnemy]) && enemyHealth[currentEnemy] > 0)
+		{
+	 		effectDuration[2] = 3;
+		}
+	}
+	 
+   setEnemyHealth();
+    
+   if(enemyHealth[currentEnemy] > 0)
+   {
+   	if(projectileList.includes(currentEnemies[currentEnemy]) == false || mixedList.includes(currentEnemies[currentEnemy]) == true) 
+      {
+			if(items.includes("Dodge"))
+			{
+         	let didDodge = rndInteger(1, 200) 
+               
+				let threshold = 1.5 * getItemAmount("Dodge") * 2
+				
+				  
+            if(didDodge / getItemAmount("Dodge") < threshold)
+				{
+					NewLine("Dodged Attack")
+					setTimeout(setBackSteveSprite, 1000, "Dodge");
+	
+					$( ".steveImage" ).last().addClass("steveDodge");
+				}else
+				{
+					playerHealth -= getPlayerDamage();
+				}
+            }else
+				{
+					playerHealth -= getPlayerDamage();
+				}
+        }
+    }
+
+    
+    healthDepleationSystem();	
+	}
+    
+	
+}
+            
+</script>
+        
+	</head>
+<style type="text/css"> /* ratio: 0.561904761905 */
+    
+:root
+{
+	--screenTint: red;	
+	--chestUrl: url('assets/images/chests/OakClosed.png');
+}	
+	
+	
+.steveImage
+{	
+	height: 21%;
+   width: 11%;
+   background-image: url('assets/images/character sprites/Steve/Steve Idle.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%; 
+	position: absolute;
+   left: 20%;
+   top: 15%;
+}
+
+.enemyOne
+{
+	height: 21%;
+   width: 11%;
+   text-align: right;
+   position: absolute;
+	background-image: url('assets/images/character sprites/Zombie/Idle.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+   left: 40%;
+   top: 15%;
+   display: none;
+	transform-origin:100% 0%;
+}
+    
+.enemyTwo
+{
+	height: 21%;
+    width: 11%;
+    text-align: right;
+    position: absolute; 
+    background-image: url('assets/images/character sprites/Zombie/Idle.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    left: 50%;
+    top: 5%;
+    display: none;
+	transform-origin:100% 0%;
+}
+
+.enemyThree
+{
+	height: 21%;
+    width: 11%;
+    text-align: right;
+    position: absolute; 
+    background-image: url('assets/images/character sprites/Zombie/Idle.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    left: 50%;
+    top: 25%;
+    display: none;
+	transform-origin:100% 0%;
+}    
+    
+.enemyFour
+{
+	height: 21%;
+    width: 11%;
+    text-align: right;
+    position: absolute; 
+    background-image: url('assets/images/character sprites/Zombie/Idle.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    left: 60%;
+    top: 15%;
+    display: none;
+	transform-origin:100% 0%;
+}    
+
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('assets/fonts/Main Menu/Minecraft-Regular.eot');
+    src: url('assets/fonts/Main Menu/Minecraft-Regular.eot?#iefix') format('embedded-opentype'),
+        url('assets/fonts/Main Menu/Minecraft-Regular.woff2') format('woff2'),
+        url('assets/fonts/Main Menu/Minecraft-Regular.woff') format('woff'),
+        url('assets/fonts/Main Menu/Minecraft-Regular.ttf') format('truetype'),
+        url('assets/fonts/Main Menu/Minecraft-Regular.svg#Minecraft-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+    
+.MinecraftFont
+{
+    font-family: 'Minecraft'; font-weight: normal; font-style: normal;
+}    
+    
+.deathLabel
+{
+    color: red;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    display: none;
+    position: absolute;
+    top 30px;
+    right: 50%;
+
+}
+    
+.levelLabel
+{
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 30px;
+    text-shadow: 1px 1px black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    display: none;
+}
+
+    
+.GamePortion 
+{
+    border: 3px solid black;     
+	border-radius: 5px;
+    background-image: url(assets/images/backdrops/overworld/gameplay.png);
+    height: 400px;
+}
+    
+.AttackButton
+{
+    width: 24%;
+    height: 7%;
+    font-size: 30px;
+    color: white;
+    border: 2px solid black; 
+    background-color: lightGray;
+    margin: 0px 20%;
+    font-weight: bold;
+    background: url('assets/images/Button Bg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    text-shadow: 2px 2px black;
+	 position: fixed;
+
+}
+    
+.HealButton
+{
+    width: 24%;
+    height: 7%;
+    font-size: 30px;
+    border: 2px solid black; 
+    background-color: lightGray;
+    color: white;
+    background: url('assets/images/Button Bg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
+    margin: 0px 20%;
+	 right: 0px;
+    font-weight: bold;
+    text-shadow: 2px 2px black;
+	 position: fixed;
+
+}
+
+.MinecraftButton
+{
+	background: url('assets/images/Button Bg.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+	border: 2px solid black; 
+
+}
+	
+.MinecraftButtonDisabled
+{
+	background: url('assets/images/Button Bg Disabled.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+	border: 2px solid black; 
+
+}
+	
+.HoverMC:hover 
+{
+   background: url('assets/images/Button Bg Selected.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+}
+    
+.steveAttack
+{
+   background-image: url('assets/images/character sprites/Steve/Steve Attack.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%; 
+}    
+
+.steveTotem
+{
+   background-image: url('assets/images/character sprites/Steve/Steve Totem.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%; 
+}    
+    
+.steveHeal
+{
+   background-image: url('assets/images/character sprites/Steve/Steve Heal.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%; 
+}   
+
+.steveDodge
+{
+   background-image: url('assets/images/character sprites/Steve/Steve Dodge.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%; 
+}   
+    
+.steveDead
+{
+   background-image: url('assets/images/character sprites/Steve/Steve Dead.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%; 
+}   
+  
+.steveArrowDmg
+{
+    background-image: url('assets/images/character sprites/Steve/Steve Arrow.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%; 
+}    
+    
+body    
+{    
+   background: black;
+   background-repeat: repeat;
+   background-size: 100% 100%;    
+   overflow: hidden;
+	user-select: none;
+}    
+	
+    
+.hearts
+{
+    height: 57px;
+    margin-left: auto;
+    margin-right: auto;    
+}
+
+.enemyHealthsLbl
+{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;    
+    color: white;
+	 text-shadow: 2px 2px black;
+}
+    
+.bgImage
+{
+    background-image: url('assets/images/backdrops/overworld/UI.png');
+    background-repeat: repeat;
+    background-size: 100% 100%;    
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    z-index: -10;
+}
+    
+    
+.heartsD
+{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+   
+.SelectionArrow
+{
+   position: absolute;
+   left: 44%;
+   top: 14%;
+	z-index:100;
+	width: 30px;
+	height: 33px;
+   background: url("assets/images/Select Arrow.png");
+	background-repeat: repeat;
+   background-size: 100% 100%; 
+	display:none;
+}    
+    
+.projectilePoints
+{
+   border-radius: 75%;
+   width: 50px;
+   height: 50px;
+   background-color: green;
+	position: absolute;
+   left: 50%;
+   top: 50%;
+   display: none;
+	z-index: 50;
+}
+
+.projectilePoint1
+{
+   left: 10%;
+   top: 10%;
+	display: none;
+}
+
+.projectilePoint2
+{
+   left: 10%;
+   top: 10%;
+	display: none;
+}
+
+.projectilePoint3
+{
+   left: 10%;
+   top: 10%;
+	display: none;
+}
+
+.projectilePoint4
+{
+	left: 10%;
+   top: 10%;
+   display: none;
+}
+    
+.projectileAnimate
+{
+   animation-name: activeProjectile;
+   animation-duration: 3s;
+	animation-iteration-count: infinite;
+}    
+    
+@keyframes activeProjectile
+{
+	1% {background-color: green;}
+   50% {background-color: yellow;}
+   100% {background-color: red;}
+}
+    
+.totemUse
+{
+   position: absolute;
+   top: 15%;
+   left: 25%;
+   background-image: url('assets/images/totem use.gif');
+   background-repeat: repeat;
+   background-size: 100% 100%;    
+   width: 50%;
+   height: 65%;
+	z-index: 1000;
+	display: none;
+}    
+	 
+.mouthWash
+{
+	position: absolute;
+   top: 65%;
+   left 20px;
+   color: white;
+}    
+    
+.ActionConsole
+{
+   color: white;
+   text-shadow: 1px 1px black;
+   list-style-type: none;
+   transform: rotate(180deg);
+   width: 250px;
+   overflow: hidden; 
+
+}
+    
+.ActionConsole > li
+{
+   transform: rotate(-180deg);
+   margin-bottom: 10px;
+
+}
+
+.absolute
+{
+   
+}
+	
+.screenTint
+{
+	background-color: var(--screenTint);
+	opacity: 0.3;
+	z-index: 9999999999999999999999999999999999999999999999999999999999999;
+	width: 500%;
+	height: 500%;
+	top: -20%;
+	left: -20%;
+	position: fixed;
+	margin: 0;
+	display: none;
+}	
+    
+.tutorialBox
+{
+   opacity: 1;
+	animation-name: tutorialOpen;
+   animation-duration: 3s;
+	animation-iteration-count: 1;
+	z-index: 50000;
+	background-color: #292929;
+	border: 2px solid black; 
+	width: 30%;
+  	height: 24%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+}
+
+.tutorialBoxClose
+{
+   opacity: 1;
+	animation-name: tutorialClose;
+   animation-duration: 3s;
+	animation-iteration-count: 1;
+}	
+	
+@keyframes tutorialOpen
+{
+	1% {opacity: 0;}
+   100% {opacity: 1;}
+}
+	
+@keyframes tutorialClose
+{
+	1% {opacity: 1;}
+   100% {opacity: 0;}
+}
+	
+.tutorialTint
+{
+	background-color: black;
+	opacity: 1;
+	z-index: 4900;
+	width: 500%;
+	height: 500%;
+	top: -20%;
+	left: -20%;
+	position: fixed;
+	margin: 0;
+	display: none;
+   animation-name: tutorialTint;
+   animation-duration: 3s;
+	animation-iteration-count: 1;
+}    
+	
+.tutorialTintClosing
+{
+	opacity: 0.8;
+   animation-name: tutorialTintClose;
+   animation-duration: 3s;
+	animation-iteration-count: 1;
+} 
+    
+@keyframes tutorialTint
+{
+	1% {opacity: 0;}
+   100% {opacity: 0.8;}
+}
+
+@keyframes tutorialTintClose
+{
+	1% {opacity: 0.8;}
+   100% {opacity: 0;}
+}
+		
+.tutorialPortrait
+{
+	position: relative;
+ 	width: 27%;
+  	height: 70%;
+	top: -71%;
+	left: -5%;
+}
+
+.tutorialSection
+{
+	position: relative;
+	top: -75%;
+	left: 5%;
+	color: white;
+	text-shadow: 1px 1px black;
+
+}
+	
+.tutorialParagraph
+{
+	position: relative;
+	top: -75%;
+	left: 7%;
+	width: 90%;
+	color: white;
+	text-shadow: 1px 1px black;
+}
+
+.tutorialNext	
+{
+   width: 35%;
+   height: 20%;
+	font-size: 150%;
+	border: 2px solid black; 
+   background-color: lightGray;
+   color: white;
+   position: absolute; 
+   background: url('assets/images/Button Bg.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+   text-align: center;
+   font-weight: bold;
+   bottom: 5%;
+   right: 2%;
+   text-shadow: 2px 2px black;
+	
+	
+}
+
+.tutorialEnd
+{
+	width: 95%;
+   height: 20%;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 5;
+	font-size: 150%;
+	border: 2px solid black; 
+   background-color: lightGray;
+   color: white;
+   position: absolute; 
+   background: url('assets/images/Button Bg.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+   text-align: center;
+   font-weight: bold;
+   bottom: 5%;
+   left: 2%;
+   text-shadow: 2px 2px black;
+	display: none;
+}	
+	
+.tutorialClose	
+{
+   width: 55%;
+   height: 20%;
+	font-size: 150%;
+	border: 2px solid black; 
+   background-color: lightGray;
+   color: white;
+   position: absolute; 
+   background: url('assets/images/Button Bg.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+   text-align: center;
+   font-weight: bold;
+   bottom: 5%;
+   left: 2%;
+   text-shadow: 2px 2px black;
+	display: none;
+	
+}
+	
+.chest
+{
+	background-image: var(--chestUrl);
+	background-repeat: no-repeat;
+   background-size: 100% 100%;
+	width: 10%;
+	height: 31%;
+	position: relative;
+	left: 50%;
+	top: 30%;
+	display: none;
+	z-index: 10;
+	
+}	
+	
+	
+.totemUndying
+{
+   width : 3.3%;
+   height: 7%;
+   left: 40px;
+   background-image: url('assets/images/totem Of Undying.png');
+   background-repeat: repeat;
+   background-size: 100% 100%;
+   position: absolute;
+	display: none;
+	
+}
+	
+.inventoryMain
+{
+	background: url('assets/images/inventory/background.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+	position: absolute;
+	left: 50%;
+	top: 45%;
+	transform: translate(-50%, -50%);
+	width: 50%;
+	height: 80%;
+	display: none;
+	z-index: 300;
+}	
+	
+.sideTab
+{
+	background: url('assets/images/inventory/tabs/tab Normal.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+	position: absolute;
+	left: -9.4%;
+	width:10%;
+	height: 10%;
+	z-index: 301;
+	-webkit-transform: rotate(-90deg);
+   -moz-transform: rotate(-90deg);
+   -o-transform: rotate(-90deg);
+   transform: rotate(-90deg); 
+}	
+	
+.bottomTab
+{
+	background: url('assets/images/inventory/tabs/tab Normal.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+	position: absolute;
+	bottom: -10%;
+	width:10%;
+	height: 10%;
+	z-index: 301;
+	-webkit-transform: rotate(180deg);
+   -moz-transform: rotate(180deg);
+   -o-transform: rotate(180deg);
+   transform: rotate(180deg); 
+}	
+	
+.storageTab	
+{
+	top: 2%;	
+}
+
+.storageIcon
+{
+	background: url('assets/images/inventory/tabs/storage.png');
+}		
+.foodTab	
+{
+	top: 13.5%;	
+}
+.foodIcon
+{
+	background: url('assets/images/inventory/tabs/food.png');
+}
+	
+.craftTab	
+{
+	top: 25%;	
+}
+.craftIcon
+{
+	background: url('assets/images/inventory/tabs/craft.png');
+}	
+
+.equipTab	
+{
+	top: 36.5%;	
+}
+.equipIcon
+{
+	background: url('assets/images/inventory/tabs/equip.png');
+}	
+		
+.closeTab	
+{
+	right: 2%;	
+}
+
+.closeIcon
+{
+	background: url('assets/images/inventory/tabs/close.png');
+}
+	
+.foodButton
+{
+	background: url('assets/images/Button Bg.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+	text-shadow: 2px 2px black;
+	color: white;
+	font-size: 30px;
+	margin-left: 5px;
+	margin-top: 5px;
+ 	border: 1px solid black; 
+	text-align: center;
+	overflow: auto;
+}
+
+.food
+{
+	padding: 15px;	
+	overflow: auto;
+	display: none;
+}	
+	
+.storage
+{
+	overflow: auto;
+	display:block;
+}
+	
+.craft
+{
+	overflow: auto;
+	display:none;
+}
+	
+.equip
+{
+	overflow: auto;
+	display: none;
+}	
+	
+.selectedFood
+{
+	position: absolute;
+	bottom: 1%;
+	right: 4%;
+	font-size: 25px;
+	text-align: right;
+	color: white;
+	text-shadow: 2px 2px black;
+
+}	
+	
+.tabIcon	
+{
+	position: relative;
+	height: 70%;
+	width: 70%;
+	left: 50%;
+	top: 50%;
+	background-repeat: no-repeat;
+   background-size: 100% 100%;
+	transform: translate(-50%, -50%);
+}
+	
+	
+.tabSelected
+{
+	background: url('assets/images/inventory/tabs/tab Selected.png');
+}	
+ 
+.openInventory	
+{
+	background: url('assets/images/inventory/Open Icon.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+	width: 75px;
+	height: 75px;
+	position: absolute;
+	right: 2.5%;
+	top: 74.4%;
+}
+	
+.openInventory:hover
+{
+	background: url('assets/images/inventory/Open Icon Hover.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+
+}
+	
+.itemUseHover:hover
+{
+  	background: url('assets/images/Button Bg Hover.png');
+	background-repeat: no-repeat;
+   background-size: 100% 100%;
+}
+	
+.ProceedButton
+{
+   width: 24%;
+   height: 7%;
+   font-size: 30px;
+   border: 2px solid black; 
+   background-color: lightGray;
+   color: white;
+   position: absolute; 
+   background: url('assets/images/Button Bg.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+   text-align: center;
+   font-weight: bold;
+   bottom: 5%;
+   right: 2%;
+   display: none;
+   text-shadow: 2px 2px black;
+	
+}
+   
+    
+</style>
+
+    <div class="bgImage" id="bgImage"></div>   
+
+        
+        
+	<body onload="randomLife(), setEnemyHealth(), setBrackets(), startUpActions(), tutorialOpen()">
+    
+    <div class="absolute">	<div class="totemUse"id="totemUse"></div>	</div>
+		
+		
+		<div class="tutorialTint" id="tutorialTint"></div>
+	 <div class="tutorialBox" id="tutorialBox"> 
+		 <img id="tutorPortrait" class="tutorialPortrait" src="assets/images/character sprites/Steve/Steve Teach.png">
+		 <h2 id="tutorialSection" class="tutorialSection MinecraftFont">Intro: </h2>
+		 <p id="tutorialParagraph" class="tutorialParagraph MinecraftFont">You may read the README.txt to get a recap and more tips</p>
+		 <button onclick="tutorialClose()" class="HoverMC MinecraftFont tutorialClose" id="tutorialBackOut">Back Out</button><button onclick="tutorialClose()" class="HoverMC MinecraftFont tutorialEnd" id="tutorialEnd">Close Tutorial</button> <button onclick="tutorialNext()" class="HoverMC MinecraftFont tutorialNext" id="tutorialNext">Next</button> </div>
+        
+		
+			<div id="openInventory" onClick="openInventory()" class="openInventory">
+		</div>	
+	<div class="inventoryMain" id="inventoryMain">
+		<div class="tabs">
+			<div class="storageTabW"><div class="sideTab storageTab"onclick="switchInventory('storage')"><div class="storageIcon tabIcon"onclick="switchInventory('storage')"></div></div></div>
+			<div class="foodTabW"><div class="sideTab foodTab" onclick="switchInventory('food')"><div class="foodIcon tabIcon" onclick="switchInventory('food')"></div></div></div>
+		   <div class="craftTabW"><div class="sideTab craftTab" onclick="switchInventory('craft')"><div class="craftIcon tabIcon" onclick="switchInventory('craft')"></div></div></div>
+			<div class="equipTabW"><div class="sideTab equipTab" onclick="switchInventory('equip')"><div class="equipIcon tabIcon" onclick="switchInventory('equip')"></div></div></div>
+			<div class="inventoryClose"><div class="bottomTab closeTab" onClick="closeInventory()"><div class="closeIcon tabIcon"></div></div>	
+		</div>
+			
+		<div class="groups">
+			<div class="food" id="food">
+				<br>
+					<div id="foodContainer">
+				</div>
+			<h1 id="selectedFood" class="selectedFood MinecraftFont">Selected Food: apple</h1>	
+		</div>
+			<div class="storage" id="storage">
+				<h2 class="MinecraftFont" style="text-align:center;">Items</h2>
+				<div id="storageList"style="  overflow-x: hidden; overflow-y: scroll;height:87%; position:absolute; width:100%;" >
+				</div>
+			</div>
+			<div class="craft" id="craft">
+				<h2 class="MinecraftFont"style="text-align:center;">Crafting</h2>
+			<select id="itemOne" name="Item One" class="MinecraftFont" style="background: url('assets/images/Button Bg.png');background-repeat: no-repeat;background-size: 100% 100%; position:absolute; top: 10%; left:10%; width:23%;height:6%; border: 2px solid black; color:white; text-align:center;">
+			</select>
+			<select id="itemTwo" name="Item Two" class="MinecraftFont" style="background: url('assets/images/Button Bg.png');background-repeat: no-repeat;background-size: 100% 100%; position:absolute; top: 10%; right:10%; width:23%;height:6%; border: 2px solid black;color:white; text-align:center;">
+			</select>
+				<button class="MinecraftFont MinecraftButton HoverMC" onclick="craftItem()" style="text-align:center; position:absolute; width:90%; height:10%; left:5%; bottom:5%; border: 2px solid black; color:white; font-weight:bold; font-size:30px; text-shadow: 2px 2px black;">Fuse</button>
+		</div>	
+			<div class="equip" id="equip">
+				<h2 class="MinecraftFont" style="text-align:center;">Equipment</h2>
+				<div style="position:absolute; right:5%; width:30%; height:13%;"><div class="MinecraftFont" style="text-align:center; font-size:30px;">Melee</div><select id="meleeSelect" class="MinecraftFont" style="background: url('assets/images/Button Bg.png');background-repeat: no-repeat;background-size: 100% 100%; position:absolute; width:100%;height:60%; top:40%; border: 2px solid black; color:white; text-align:center;"></select></div>
+				<br><br><br><br><br>
+				<div style="position:absolute; right:5%; width:30%; height:13%;"><div class="MinecraftFont" style="text-align:center; font-size:30px;">Helmet</div><select id="helmetSelect" class="MinecraftFont" style="background: url('assets/images/Button Bg.png');background-repeat: no-repeat;background-size: 100% 100%; position:absolute; width:100%;height:60%; top:40%; border: 2px solid black; color:white; text-align:center;"></select></div>
+				<br><br><br><br>
+				<div style="position:absolute; right:5%; width:30%; height:13%;"><div class="MinecraftFont" style="text-align:center; font-size:30px;">Chestplate</div><select id="chestplateSelect" class="MinecraftFont" style="background: url('assets/images/Button Bg.png');background-repeat: no-repeat;background-size: 100% 100%; position:absolute; width:100%;height:60%; top:40%; border: 2px solid black; color:white; text-align:center;"></select></div>
+				<br><br><br><br>
+				<div style="position:absolute; right:5%; width:30%; height:13%;"><div class="MinecraftFont" style="text-align:center; font-size:30px;">Leggings</div><select id="leggingsSelect" class="MinecraftFont" style="background: url('assets/images/Button Bg.png');background-repeat: no-repeat;background-size: 100% 100%; position:absolute; width:100%;height:60%; top:40%; border: 2px solid black; color:white; text-align:center;"></select></div>
+				<br><br><br><br>
+				<div style="position:absolute; right:5%; width:30%; height:13%;"><div class="MinecraftFont" style="text-align:center; font-size:30px;">Boots</div><select id="bootsSelect" class="MinecraftFont" style="background: url('assets/images/Button Bg.png');background-repeat: no-repeat;background-size: 100% 100%; position:absolute; width:100%;height:60%; top:40%; border: 2px solid black; color:white; text-align:center;"></select></div>
+				<br><br><br><br>
+			</div>
+		</div>
+	</div>
+	</div>
+	<div class="GamePortion" id="GamePortion"> <div class="projectilePoints projectileAnimate projectilePoint1" onmouseover="projectileHover(1)" id="projectilePoint1"></div><div class="projectilePoints projectileAnimate projectilePoint2" onmouseover="projectileHover(2)" id="projectilePoint2"></div><div class="projectilePoints projectileAnimate projectilePoint3" onmouseover="projectileHover(3)" id="projectilePoint3"></div><div class="projectilePoints projectileAnimate projectilePoint4" onmouseover="projectileHover(4)" id="projectilePoint4"></div> <div class="steveImage" id="SteveImage" onclick="attack()"> </div> <div class="SelectionArrow" id="SelectionArrow"> </div> <div onclick="swapEnemy(1)" class="enemyOne" id="enemyOne"> </div> <div onclick="swapEnemy(2)" class="enemyTwo" id="enemyTwo"> </div> <div class="chest" id="chest" onclick="OpenChest()"></div> <div onclick="swapEnemy(3)" class="enemyThree" id="enemyThree"> </div> <div onclick="swapEnemy(4)" class="enemyFour" id="enemyFour"> </div></div>
+	 <br> 
+        <div id="totemUndying" class="totemUndying"></div>
+        <div class="heartsD"><img id="heart1" class="hearts" src="assets/images/hearts/normalFull.png"> <img class="hearts"  id="heart2" src="assets/images/hearts/normalFull.png"> <img class="hearts" id="heart3" src="assets/images/hearts/normalFull.png"> <img id="heart4" class="hearts"  src="assets/images/hearts/normalFull.png"> <img id="heart5" class="hearts"  src="assets/images/hearts/normalFull.png"> <img id="heart6" class="hearts"  src="assets/images/hearts/normalFull.png"> <img id="heart7" class="hearts"  src="assets/images/hearts/normalFull.png"> <img id="heart8" class="hearts"  src="assets/images/hearts/normalFull.png"> <img id="heart9" class="hearts"  src="assets/images/hearts/normalFull.png"> <img id="heart10" class="hearts"   src="assets/images/hearts/normalFull.png"> </div>
+		
+
+    <h3 id="mouthWash" class="mouthWash MinecraftFont">Loading...</h3>    
+	<h1 id="enemyHealthsLbl" class="enemyHealthsLbl MinecraftFont">Loading...</h1> 
+	<button class="AttackButton MinecraftFont HoverMC"onclick="attack(0)">Attack</button>
+    <button id="HealButton" class="HealButton MinecraftFont HoverMC"onclick="heal()">&lt Eat &gt</button>
+
+        <button class="ProceedButton HoverMC MinecraftFont" id="ProceedButton" onClick="Proceed()"> Proceed </button> <div id="ActionConsole" class="ActionConsole MinecraftFont"></div>
+        <div id="deathMessages" class="deathMessages">
+			  <div id="deathTint"style=" display:none;top:0; left: 0; width: 100%; height:100%; position:absolute; background-color: red; opacity: 0.2;"></div>
+        <h3 id="deathLabel" class="deathLabel" style="position:absolute; top: 40%; left:40%; width:100%; text-align:center; transform: translate(-40%, -40%);">You are dead.</h3>
+            <h3 id="levelLabel" class="levelLabel" style="position:absolute; bottom: 5%; text-align:center;width:100%;">You've Reached: BIG CHUNGUS IS FUNNY </h3>
+        </div>
+	</body>
+    </html><!--This much for such a sad excuse of a game. shm (shake head my)-->

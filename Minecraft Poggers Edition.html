@@ -1,4 +1,4 @@
-<doctype html>
+<!DOCTYPE html>
 	<html>
 	<head>
 		<title>Minecraft</title>
@@ -26,7 +26,6 @@
             url('assets/fonts/Main Menu/Minecraft-Regular.svg#Minecraft-Regular') format('svg');
         font-weight: normal;
         font-style: normal;
-        font-display: swap;
     }
     
     
@@ -41,12 +40,16 @@
         background-color: lightGray;
         background: url('assets/images/Button Bg.png');
         background-repeat: no-repeat;
+        text-shadow: 4px 1px #343434;
         background-size: 100% 100%;
+		  display: inline-block;
 
     }
     
-    body {
-        background-image: url('assets/images/Mc Background Ani.gif');
+    body
+    {
+		  background-color:black;
+        background-image: url('assets/images/Mc Background Ani BIG.gif');
         background-repeat: no-repeat;
         background-size: 100% 100%;
         margin: 0;
@@ -58,10 +61,21 @@
     {
         background: url('assets/images/Button Bg Selected.png');
         background-repeat: no-repeat;
+        color: #ffff93;
         background-size: 100% 100%;
     }
     
     .creds
+    {
+        color: white;
+        overflow: hidden;
+        position: fixed;
+        bottom: -15px;
+        right: 15px;
+        font-family: 'Minecraft'; font-weight: normal; font-style: normal;
+    }
+    
+    .version
     {
         color: white;
         overflow: hidden;
@@ -81,6 +95,7 @@
         top: 20%;
         text-shadow: 4px 1px #343434;
         font-size: 50px;
+        text-align: bottom;
         text-align: center;
         margin: auto;
         -webkit-transform: rotate(-25deg);
@@ -96,8 +111,7 @@
     }
     
     @keyframes splashPulse {
-        0% {font-size: 50px;}
-        50% {font-size:45px;}
+        50% {font-size: 45px;}
         100% {font-size:50px;}    
     }
     
@@ -111,49 +125,40 @@
     
 </style>
 
+     	<body>
+        
+        <img class="logo1" id="Logo1" src="assets/images/Minecraft Logo.png"> <!--https://www.deviantart.com/mohammedanis/art/Minecraft-Arabic-Logo-799395822 -->
+        <div id="splashText" class="splashText" onclick="linus()">Bogos Binted</div>    
+        <div class="buttons">
+        <button onclick="playBlock()" class="blockButton TitleButton">Singleplayer</button><br> <br>
+		  <button onclick="linus2()" class="SingleplayerButton TitleButton">LTTStore.com</button> <br> <br>
+       <!--	<button onclick="play()" class="SingleplayerButton TitleButton">Dungeons</button> <br> <br> -->
+        <button class="MultiplayerButton TitleButton" onclick="MultiPlay()">Multiplayer </button>
+        </div>        
+        <h4 class="version">Alpha v0.4</h4> <h4 class="creds">DogeDoge 2021 || Doge Productions || Mojang AB</h4>
+	</body>
+        
 <script type="text/javascript">
-
+     
 var click = new Audio('assets/sounds/Menu Click.mp3');
     
-function play()
-{
-    click.play();
-	window.open("game.html");
-}
-
-function playBlock()
-{
-    //window.open("world select.html");
-    play();
-}   
- 
-    /*
-    	<img class="steveImage" id="SteveImage" src="assets/images/steve.png"> <img class="zombieImage" id="zombieImage" src="assets/images/zombie.png">
-	 <br> <div class="heartsD"><img id="heart1" class="hearts" src="assets/images/heartFull.png"> <img class="hearts"  id="heart2" src="assets/images/heartFull.png"> <img class="hearts" id="heart3" src="assets/images/heartFull.png"> <img id="heart4" class="hearts"  src="assets/images/heartFull.png"> <img id="heart5" class="hearts"  src="assets/images/heartFull.png"> <img id="heart6" class="hearts"  src="assets/images/heartFull.png"> <img id="heart7" class="hearts"  src="assets/images/heartFull.png"> <img id="heart8" class="hearts"  src="assets/images/heartFull.png"> <img id="heart9" class="hearts"  src="assets/images/heartFull.png"> <img id="heart10" class="hearts"   src="assets/images/heartFull.png"> </div>
+function play(){ click.play();	window.open("rpg.html"); }
+function playBlock(){ /*window.open("world select.html"); */ play(); }   
+function MultiPlay(){ click.play(); window.open("https://knowyourmeme.com/memes/trollface"); }
     
-    */
-    
-function MultiPlay()
-{
-    click.play();
-    window.open("https://knowyourmeme.com/memes/trollface");
-}
+var a;       
+function applySplash(){ document.getElementById("splashText").innerHTML = Splashes[rndSplash] }            
+function rndInteger(min, max) { return Math.floor(Math.random() * (max - min + 1) ) + min; }
 
+    
+//it's long innit
+//Wraps around 18 characters
+const Splashes = ["Also try Minecraft!", "Boom boom pow", "Bro Momento", "You're so sussy!", "lttstore.com", "Whaddup son", "Amonmangus", "Cook", "Happy linus :)", "Hi I'm Baldi" ,"Sad Linus :(", "Nobama", "This doesn't feel random", "I forgor💀", "Campfire willy", "Sus scrofa", "Just shout my name", "Minecraft's grim reaper", "ERROR 404", "Harambe wasn't the imposter", "Screw you john", "MS Comic Sans", "Liberals 🤮", "Also try Terraria!", "Five Night at fred", "2 1/2in Gummy Bear", "Caught in 144p", "Scot the wox", "Drive and power", "No more fortnite!"];
+    
+    
+a = setTimeout(applySplash, 10);
+var rndSplash = rndInteger(0, Splashes.length - 1); 
+function linus() { if(document.getElementById("splashText").innerHTML == "lttstore.com") window.open("https://www.lttstore.com/"); }   
+function linus2() {click.play();	 window.open("https://www.lttstore.com/"); }   
 </script>
-	<body>
-
-     
-    <img class="logo1" id="Logo1" src="assets/images/Minecraft Logo.png"> 
-                <div class="splashText">Also try Minecraft!</div>
-
-	
-    <div class="buttons">
-        <button onclick="playBlock()" class="blockButton TitleButton">Singleplayer</button> <br> <br>
-        <button onclick="play()" class="SingleplayerButton TitleButton">Dungeons</button> <br> <br>
-        
-        <button class="MultiplayerButton TitleButton" onclick="MultiPlay()">Multiplayer </button>
-        </div>
-        
-        <h4 class="creds">Game created by Noah Doran (DogeDoge) 2021 || Orignal Game By Mojang</h4>
-	</body>
 	</html>

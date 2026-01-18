@@ -12,9 +12,10 @@
 
             }
             
-            .TopLabel
+            .topLabel
             {
                 margin-top: 20;
+                text-shadow: 4px 1px #343434;
             }
             
             .whiteText
@@ -22,9 +23,19 @@
                 color: white;
             }
             
-            .TopPart
+            .worlds
             {
-                background: url('assets/images/options.png');
+                height: 65%;
+                border: 2px solid black; 
+                background: darkGray;
+
+            }
+            
+            .topPart
+            {
+                background: url('assets/Blockgame/textures/gui/options_background.png');
+                background-size: 5% 5%;
+                overflow: hidden;                
                 text-align: center; 
                 font-family: 'Minecraft'; font-weight: normal; font-style: normal;
                 margin-left: auto;
@@ -34,6 +45,16 @@
 
             }
             
+            .bottomPart
+            {
+                background: url('assets/Blockgame/textures/gui/options_background.png');
+                background-size: 5% 5%;
+                overflow: hidden;
+                font-family: 'Minecraft'; font-weight: normal; font-style: normal;
+                height: 23%;
+
+            }    
+                
             @font-face {
                 font-family: 'Minecraft';
                     src: url('assets/fonts/Main Menu/Minecraft-Regular.eot');
@@ -54,9 +75,10 @@
         </header>
         
         <body>
-            <div class="TopPart whiteText"><br><h2 class="TopLabel">Select World</h2></div>
-            <div class="Worlds"> <div class="worldOne" id="worldOne"> <h2 id="worldOneName">Empty World Slot</h2>
+            <div class="topPart whiteText"><br><h2 class="topLabel">Select World</h2></div>
+            <div class="worlds"> <div class="worldOne" id="worldOne"> <h2 id="worldOneName whiteText">Empty World Slot</h2>
                 </div></div>
+            <div class="bottomPart whiteText"> </div>
             
         </body>
 </html>
